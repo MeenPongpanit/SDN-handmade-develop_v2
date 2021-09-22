@@ -21,7 +21,7 @@ module.exports = {
   ],
   axios: {
     // baseURL: 'http://localhost:5001/api/v1/'
-    baseURL: 'http://10.30.7.29:5001/api/v1/'
+    baseURL: 'http://10.50.34.37:5001/api/v1/'
     // proxyHeaders: false
   },
   /*
