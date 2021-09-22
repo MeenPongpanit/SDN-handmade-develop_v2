@@ -1,0 +1,12 @@
+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
+
+git fetch
+git checkout SNget
+git branch -M SNget
+
+
+/etc/mongod.coonect
+
+
+ไฟล์  อยู่ใน backend/src/snnp_worker.py 
+class snnp_worker method get_and store ใช้ SNget ตรงนั้น

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import time
+import getSN
 from concurrent.futures import wait, ProcessPoolExecutor
 
 import repository
@@ -26,7 +27,7 @@ class SNMPWorker:
         """ Get snmp information and add to database
         """
 
-        device_id = device['_id']
+        device_id = getSN.getsn(device['management_ip'])
         host = device['management_ip']
         community = device['snmp_info']['community']
         port = device['snmp_info']['port']
