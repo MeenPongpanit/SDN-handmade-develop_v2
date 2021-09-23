@@ -27,7 +27,8 @@ class SNMPWorker:
         """ Get snmp information and add to database
         """
 
-        device_id = getSN.getsn(device['management_ip'])
+        # device_id = getSN.getsn(device['management_ip'])
+        device_id = device['_id']
         host = device['management_ip']
         community = device['snmp_info']['community']
         port = device['snmp_info']['port']
