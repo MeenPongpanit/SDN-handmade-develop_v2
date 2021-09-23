@@ -1,0 +1,24 @@
+config t
+hostname R7_3
+int g0/0
+ip add 192.168.7.49 255.255.255.240
+no shut
+int g0/1
+ip add 192.168.7.34 255.255.255.240
+no shut
+int l0
+ip add 7.7.7.3 255.255.255.255
+no shut
+router ospf 1
+net 192.168.7.48 0.0.0.15 a 0
+net 192.168.7.32 0.0.0.15 a 0
+ip domain-name pcn
+crypto key generate rsa mod 1024
+ip ssh version 2
+username cisco password cisco
+enable password cisco
+line vty 0 4
+transport input ssh
+login local
+end
+write

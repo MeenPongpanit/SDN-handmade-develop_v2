@@ -12,6 +12,12 @@ line vty 0 4
 transport input ssh
 login local
 
+[R7-1]
+
+[R7-2]
+
+[R7-3]
+
 
 [Switch1]
 hostname S1
@@ -19,3 +25,4 @@ int vlan 1
 ip add 172.16.1.2 255.255.255.0
 no shut
 ip default-ga 172.16.1.1
+
