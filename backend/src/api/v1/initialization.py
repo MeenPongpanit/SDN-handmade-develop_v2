@@ -12,11 +12,14 @@ class InitializationView(HTTPMethodView):
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
         init_snmp_setting(devices)
+        print('get device init')
+
         return json({"success": True, "message": "Initialization SNMP Success"})
     def post(self, request):
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
-
+        # init_snmp_setting(devices)
+        # print('post device init')
         for device in devices:
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
