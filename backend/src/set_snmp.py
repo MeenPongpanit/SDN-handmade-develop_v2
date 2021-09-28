@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from threading import Thread
 
 client = MongoClient('localhost', 27017)
-devices = client.sdn01.device.find() #client.(database).(collection).find()
+# devices = client.sdn01.device.find() #client.(database).(collection).find()
 
 class set_snmp_worker(Thread):
     def run(self, device):
@@ -37,5 +37,7 @@ def sleep(device_connection):
     while(device_connection.recv(65535).decode("utf-8")[-1] not in "#>"):
         time.sleep(0.1)
 
-for device in devices:
-    set_snmp_worker().run(device)
+
+def init_snmp_setting(devices):
+    for device in devices:
+        set_snmp_worker().run(device)

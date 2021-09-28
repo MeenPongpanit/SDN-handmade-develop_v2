@@ -1,6 +1,6 @@
 import paramiko
 import time
-
+from set_snmp import init_snmp_setting
 from bson.json_util import dumps
 from sanic.response import json
 from sanic.views import HTTPMethodView
@@ -11,27 +11,7 @@ class InitializationView(HTTPMethodView):
     def get(self, request):
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
-
-        for device in devices:
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.connect(device['management_ip'], port=22, username=device['ssh_info']['username'], password=device['ssh_info']['password'])
-            remote_connect = ssh.invoke_shell()
-            output = remote_connect.recv(65535)
-            if output.decode("utf-8")[-1] == ">":
-                remote_connect.send("enable\n")
-                time.sleep(0.5)
-                remote_connect.send(device['ssh_info']['secret']+"\n")
-                time.sleep(0.5)
-            else:
-                pass
-            # set snmp
-            snmp_commands = ['conf t\n', 'snmp-server enable traps\n', 'snmp-server community public RO\n', 'snmp-server community private RW\n', 'end\n']
-            for command in snmp_commands:
-                remote_connect.send(command)
-                time.sleep(0.5)
-            
-            ssh.close()
+        init_snmp_setting(devices)
         return json({"success": True, "message": "Initialization SNMP Success"})
     def post(self, request):
         device_repo = request.app.db['device']
