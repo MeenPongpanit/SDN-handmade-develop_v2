@@ -25,4 +25,4 @@ def getsn(device_ip, username = 'cisco', password = 'cisco'):
             if "SN" in inventory_SN_line[index]:
                 # print(inventory_SN_line[index + 1])
                 return inventory_SN_line[index + 1]
-    raise SSHError()
+        raise SSHError()
