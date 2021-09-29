@@ -1,5 +1,5 @@
 from ipaddress import IPv4Address, AddressValueError
-
+import getSN
 from bson.json_util import dumps
 from sanic.response import json
 from sanic.views import HTTPMethodView
@@ -33,6 +33,7 @@ class DeviceView(HTTPMethodView):
         device_repo = request.app.db['device']
         try:
             device = {
+                'serial': getSN.getsn(request.json['management_ip']),
                 'management_ip': request.json['management_ip'],
                 'device_ip': request.json['management_ip'],
                 'type': request.json['type'],
