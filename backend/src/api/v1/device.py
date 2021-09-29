@@ -1,3 +1,4 @@
+from backend.src.getSN import SSHError
 from ipaddress import IPv4Address, AddressValueError
 import getSN
 from bson.json_util import dumps
@@ -52,6 +53,8 @@ class DeviceView(HTTPMethodView):
             }
         except ValueError:
             return json({'success': False, 'message': 'Invalidate form'})
+        except SSHError:
+            return json({'success': False, 'message': 'Unable to SSH to the device.'})
 
         device_repo.add_device(device)
         return json({'success': True, 'message': request.json}, status=201)

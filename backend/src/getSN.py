@@ -1,5 +1,8 @@
 from netmiko import ConnectHandler
 
+class SSHError(Exception):
+    pass
+
 def getsn(device_ip, username = 'cisco', password = 'cisco'):
     """get SN unique identify of router"""
     device_par = {'device_type': 'cisco_ios',
@@ -21,4 +24,4 @@ def getsn(device_ip, username = 'cisco', password = 'cisco'):
             if "SN" in inventory_SN_line[index]:
                 # print(inventory_SN_line[index + 1])
                 return inventory_SN_line[index + 1]
-        return None
+    raise SSHError
