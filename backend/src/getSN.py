@@ -9,7 +9,7 @@ def getsn(device_ip, username = 'cisco', password = 'cisco'):
                     'ip': device_ip,
                     'username': username,
                     'password': password,
-                    'conn_timeout': 5,
+                    'conn_timeout': 2,
                     }
     with ConnectHandler(**device_par) as ssh: 
         inventory_output = ssh.send_command('show inventory') #get inventory output
