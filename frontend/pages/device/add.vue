@@ -115,7 +115,7 @@ export default {
         swal("Successful", "Added device.", "success")
         this.$router.replace("/device/view")
       } else {
-        swal("Something went wrong !")
+        swal("Something went wrong !", res.message, error)
       }
     }
   }
