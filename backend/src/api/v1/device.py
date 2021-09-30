@@ -53,7 +53,7 @@ class DeviceView(HTTPMethodView):
         except ValueError:
             return json({'success': False, 'message': 'Invalidate form'}, status=201)
         except:
-            return json({'success': True, 'message':'Unable to SSH to the device.'}, status=201)
+            return json({'success': False, 'message':'Unable to SSH to the device.'}, status=201)
 
 
         device_repo.add_device(device)
