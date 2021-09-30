@@ -51,9 +51,9 @@ class DeviceView(HTTPMethodView):
                 'status': DeviceRepository.STATUS_WAIT_UPDATE
             }
         except ValueError:
-            return json({'success': False, 'message': 'Invalidate form'})
+            return json({'success': False, 'message': 'Invalidate form'}, status=400)
         except getSN.SSHError:
-            return json({'success': False, 'message':'Unable to SSH to the device.'})
+            return json({'success': False, 'message':'Unable to SSH to the device.'}, status=400)
 
         device_repo.add_device(device)
         return json({'success': True, 'message': request.json}, status=201)
