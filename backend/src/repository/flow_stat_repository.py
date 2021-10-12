@@ -267,7 +267,7 @@ class FlowStatRepository(Repository):
         return self.model.find().sort({sort_by: -1}).limit(limit)
 
     def update_flows(self, flows):
-        not_keys = ('first_switched', 'last_switched', 'in_bytes', 'in_pkts', 'out_bytes', 'out_pkts', 'created_at')
+        not_keys = ('first_switched', 'last_switched', 'in_bytes', 'in_bytes_per_sec', 'in_pkts', 'out_bytes', 'out_pkts', 'created_at')
         for flow in flows:
             _flow = flow.copy()
             for key in not_keys:

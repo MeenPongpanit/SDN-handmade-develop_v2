@@ -41,7 +41,7 @@ for device in devices:
                     remote_connect.send(command)
                     time.sleep(0.5)
                     #print(remote_connect.recv(10000))
-    ip = '10.30.7.40' #ip management device
+    ip = '10.50.34.37' #ip management device
     port = '23456'
     for command in ['ip flow-export destination '+ip+' '+port+'\n', 'ip flow-export version 9\n', 'ip flow-cache timeout active 1\n', 'ip flow-cache timeout inactive 15\n', 'ip flow-export template refresh-rate 1\n']:
         remote_connect.send(command)
