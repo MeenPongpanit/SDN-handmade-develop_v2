@@ -276,8 +276,13 @@ class FlowStatRepository(Repository):
                 except KeyError:
                     pass
             print(_flow)
-            old_in_bytes = self.model.find_one(_flow)
+            old_data = self.model.find_one(_flow)
             print('FOUND:', old_in_bytes)
+            if old_data == None:
+                old_in_bytes = 0
+            else:
+                old_in_bytes = old_data['in_bytes']
+
             flow['in_bytes_per_sec'] = (flow['in_bytes'] - old_in_bytes)/20
             self.model.update_one(
                 _flow,
