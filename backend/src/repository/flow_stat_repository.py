@@ -277,17 +277,12 @@ class FlowStatRepository(Repository):
                     pass
             print(_flow)
             old_data = self.model.find_one(_flow)
-            if old_data == None:
-                old_in_bytes = 0
-                old_created_at = 0
-                time_delta = 1
-            else:
+            if old_data != None:
                 old_in_bytes = old_data['in_bytes']
                 old_created_at = old_data['created_at']
                 time_delta = (flow['created_at'] - old_created_at).total_seconds()
-
-            in_bytes_delta = flow['in_bytes'] - old_in_bytes
-            flow['in_bytes_per_sec'] = in_bytes_delta/time_delta
+                in_bytes_delta = flow['in_bytes'] - old_in_bytes
+                flow['in_bytes_per_sec'] = in_bytes_delta/time_delta
             self.model.update_one(
                 _flow,
                 # {
