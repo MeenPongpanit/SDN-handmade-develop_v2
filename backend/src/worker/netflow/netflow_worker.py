@@ -67,7 +67,7 @@ class NetflowWorker(threading.Thread):
                     # Remove flows are not active
                     # TODO
 
-                self.flow_stat_repository.update_flows(flows)
+                self.flow_stat_repository.update_flows(flows, self.inactive_time)
 
             except Exception:
                 logging.info(traceback.format_exc())

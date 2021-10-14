@@ -266,7 +266,7 @@ class FlowStatRepository(Repository):
     def get_flows(self, sort_by='in_bytes', limit=1):
         return self.model.find().sort({sort_by: -1}).limit(limit)
 
-    def update_flows(self, flows):
+    def update_flows(self, flows, inactive_time):
         not_keys = ('first_switched', 'last_switched', 'in_bytes', 'in_bytes_per_sec', 'in_pkts', 'out_bytes', 'out_pkts', 'created_at')
         for flow in flows:
             _flow = flow.copy()
@@ -282,7 +282,7 @@ class FlowStatRepository(Repository):
             else:
                 old_in_bytes = old_data['in_bytes']
 
-            flow['in_bytes_per_sec'] = (flow['in_bytes'] - old_in_bytes)/20
+            flow['in_bytes_per_sec'] = (flow['in_bytes'] - old_in_bytes)/inactive_time
             self.model.update_one(
                 _flow,
                 # {
