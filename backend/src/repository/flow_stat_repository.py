@@ -277,7 +277,6 @@ class FlowStatRepository(Repository):
                     pass
             print(_flow)
             old_data = self.model.find_one(_flow)
-            print('FOUND:', old_in_bytes)
             if old_data == None:
                 old_in_bytes = 0
             else:
