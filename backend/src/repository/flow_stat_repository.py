@@ -275,7 +275,8 @@ class FlowStatRepository(Repository):
                     _flow.pop(key)
                 except KeyError:
                     pass
-
+            old_in_bytes = self.model.find_one(_flow)['in_bytes']
+            flow['in_bytes_per_sec'] = (flow['in_bytes'] - old_in_bytes)/20
             self.model.update_one(
                 _flow,
                 # {
