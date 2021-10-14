@@ -11,7 +11,7 @@ from netflow.netflow_packet import ExportPacket
 
 class NetflowWorker(threading.Thread):
 
-    def __init__(self, bind_ip, bind_port, active_time=60, inactive_time=20):
+    def __init__(self, bind_ip, bind_port, active_time=60, inactive_time=10):
         threading.Thread.__init__(self)
         self.bind_ip = bind_ip
         self.bind_port = bind_port
