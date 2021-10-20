@@ -22,6 +22,13 @@ class InitializationView(HTTPMethodView):
         # print(request.data)
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
-        init_netflow_setting(devices)
-        print('netflow init')
-        return json({"success": True, "message": "Initialization Net_Flow Success"})    
+        if request.json['service'] == 'netflow':
+            management_ip = request.json['management_ip']
+            init_netflow_setting(devices)
+            print('netflow init')
+            return json({"success": True, "message": "Initialization Net_Flow Success"})
+        elif request.json['service'] == 'snmp':
+            init_snmp_setting(devices)
+            print('snmp init')
+            return json({"success": True, "message": "Initialization SNMP Success"})
+

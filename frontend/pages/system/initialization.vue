@@ -20,7 +20,7 @@
                 <button v-on:click="snmp" type="button" class="btn btn-primary">Set SNMP</button>
               </div>
               <div class="col-md-1">
-                <button type="submit" class="btn btn-primary">Set Net_Flow</button>
+                <button v-on:click="netflow" type="button" class="btn btn-primary">Set Net_Flow</button>
               </div>
             </div>
           </div>
@@ -42,7 +42,8 @@ export default {
     };
   },
   methods: {
-    async onSubmit(n) {
+    netflow: async function() {
+      this.form.service = "netflow"
       const res = await this.$axios.$post("initialization", this.form);
       if (res.success === true) {
         swal("Successful", res.message, "success")
@@ -51,6 +52,7 @@ export default {
       }
     },
     snmp: async function() {
+      this.form.service = "snmp"
       const res = await this.$axios.$get("initialization", this.form);
       if (res.success === true) {
         swal("Successful", res.message, "success")
