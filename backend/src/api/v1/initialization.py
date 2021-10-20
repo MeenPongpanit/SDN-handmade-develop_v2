@@ -10,8 +10,6 @@ from repository import DeviceRepository
 
 class InitializationView(HTTPMethodView):
     def get(self, request):
-        print("||||||||||||||||||")
-        print(request.data)
         # print(request.management_ip)
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
@@ -19,6 +17,9 @@ class InitializationView(HTTPMethodView):
         print('snmp init')
         return json({"success": True, "message": "Initialization SNMP Success"})
     def post(self, request):
+        print("||||||||||||||||||")
+        print(request.app)
+        print(request.data)
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
         init_netflow_setting(devices)
