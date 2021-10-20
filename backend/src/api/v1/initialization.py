@@ -10,8 +10,8 @@ from repository import DeviceRepository
 
 class InitializationView(HTTPMethodView):
     def get(self, request):
-        print("*************")
-        print(request.app)
+        print("||||||||||||||||||")
+        print(request.data)
         # print(request.management_ip)
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
