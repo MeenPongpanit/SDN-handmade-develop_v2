@@ -18,8 +18,8 @@ class InitializationView(HTTPMethodView):
         return json({"success": True, "message": "Initialization SNMP Success"})
     def post(self, request):
         print("||||||||||||||||||")
-        print(request.app)
-        print(request.data)
+        print(dict(request.app))
+        # print(request.data)
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
         init_netflow_setting(devices)
