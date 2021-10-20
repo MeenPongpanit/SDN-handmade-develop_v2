@@ -10,8 +10,8 @@ from repository import DeviceRepository
 
 class InitializationView(HTTPMethodView):
     def get(self, request):
-        print(request)
-        print(request.management_ip)
+        print(dict(request))
+        # print(request.management_ip)
         device_repo = request.app.db['device']
         devices = device_repo.get_all()
         init_snmp_setting(devices)
