@@ -275,7 +275,7 @@ class FlowStatRepository(Repository):
                     _flow.pop(key)
                 except KeyError:
                     pass
-            print(_flow)
+            # print(_flow)
             old_data = self.model.find_one(_flow)
             if old_data != None:
                 old_in_bytes = old_data['in_bytes']
