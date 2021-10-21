@@ -285,7 +285,7 @@ class FlowStatRepository(Repository):
                 else:
                     in_bytes_delta = flow['in_bytes'] - old_in_bytes
                 time_delta = (flow['created_at'] - old_created_at).total_seconds()
-                flow['in_bytes_per_sec'] = in_bytes_delta/time_delta*8/1000000
+                flow['Mbits_per_sec'] = in_bytes_delta/time_delta*8/1000000
             self.model.update_one(
                 _flow,
                 # {
