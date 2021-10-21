@@ -44,6 +44,6 @@ class set_netflow_worker(Thread):
             time.sleep(0.5)
         ssh.close()
 
-def init_netflow_setting(devices):
+def init_netflow_setting(devices, management_ip):
     for device in devices:
-        set_netflow_worker().run(device)
+        set_netflow_worker().run(device, management_ip)
