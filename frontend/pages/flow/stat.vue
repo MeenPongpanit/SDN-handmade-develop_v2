@@ -23,6 +23,8 @@
                 <th scope="col">IN_BYTES</th>
                 <th scope="col">first switched</th>
                 <th scope="col">last switched</th>
+                <th scope="col">Mbits_per_sec</th>
+
               </tr>
             </thead>
             <tbody>
@@ -55,6 +57,7 @@
                 <td>{{ flow.in_bytes }}</td>
                 <td>{{ flow.first_switched.$date / 1000 |moment('timezone', 'Asia/Bangkok', 'DD/MM/YYYY hh:mm:ss') }}</td>
                 <td>{{ flow.last_switched.$date / 1000 | moment('timezone', 'Asia/Bangkok', 'DD/MM/YYYY hh:mm:ss') }}</td>
+                <td>{{ flow.Mbits_per_sec}}</td>
               </tr>
             </tbody>
           </table>
