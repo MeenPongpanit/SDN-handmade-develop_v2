@@ -49,6 +49,7 @@ class NetflowWorker(threading.Thread):
                 _templates.update(export.templates)
 
                 flows = []
+                ended_flows = []
                 created_at = sdn_utils.datetime_now()
                 packet_datetime = datetime.utcfromtimestamp(export.header.timestamp)
                 for flow in export.flows:
@@ -57,6 +58,7 @@ class NetflowWorker(threading.Thread):
                     # Inactive
                     if flow.data['last_switched'] + timedelta(seconds=self.inactive_time) < packet_datetime:
                         flow_type = 'inactive'
+                        ended_flows.append(flow.data)
                     # Active
                     else:
                         flow.data['from_ip'] = str(sender[0])
@@ -66,8 +68,9 @@ class NetflowWorker(threading.Thread):
 
                     # Remove flows are not active
                     # TODO
-
-                self.flow_stat_repository.update_flows(flows, self.inactive_time)
+                
+                self.flow_stat_repository.remove_ended_flows(ended_flows)
+                self.flow_stat_repository.update_flows(flows)
 
             except Exception:
                 logging.info(traceback.format_exc())
