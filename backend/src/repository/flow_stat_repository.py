@@ -338,7 +338,7 @@ class FlowStatRepository(Repository):
                 self.db.link_utilization.update_one(
                     {'$or':[{"src_if_ip":flow['ipv4_next_hop']}, {"dst_if_ip":flow['ipv4_next_hop']}]},
                     {
-                        '$addToSet': {'running_flows':running_flows}
+                        '$set': {'running_flows':running_flows}
                     }
                 )
 
