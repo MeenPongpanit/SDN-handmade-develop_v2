@@ -323,12 +323,19 @@ class FlowStatRepository(Repository):
                 {
                     '$set': flow
                 }, upsert=True)
-            # self.db.link_utilization.updateone(
-            #     {'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]},
-            #     {
-            #         '$addToSet': old_data['_id']
-            #     }
-            # )
+            old_link = self.db.link_utilization.findone({'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]})
+            old_running_flows = old_link.get('running_flows', None)
+            if old_running_flows == None:
+                running_flows = [old_data['_id']]
+            else:
+                running_flows = set(old_running_flows + old_data['_id'])
+
+            self.db.link_utilization.updateone(
+                {'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]},
+                {
+                    '$addToSet': {'running_flows':running_flows}
+                }
+            )
 
     def is_flow_exist_by_ip(self, src_ip, dst_ip):
         return self.model.find_one({
