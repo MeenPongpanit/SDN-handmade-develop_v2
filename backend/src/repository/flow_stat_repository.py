@@ -329,10 +329,10 @@ class FlowStatRepository(Repository):
             # print('\nOLD LINK: ', old_link)
             if old_link != None:
                 old_running_flows = dict(old_link).get('running_flows', [])
-                print('\nold_running:', old_running_flows)
+                print('\nold_running:', type(old_running_flows))
                 print('\nflow_id: ', flow_id)
 
-                running_flows = list(set(old_running_flows + flow_id))
+                running_flows = list(set(old_running_flows[0] + [flow_id]))
 
                 self.db.link_utilization.update_one(
                     {'$or':[{"src_if_ip":flow['ipv4_next_hop']}, {"dst_if_ip":flow['ipv4_next_hop']}]},
