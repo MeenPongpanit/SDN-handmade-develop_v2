@@ -323,14 +323,14 @@ class FlowStatRepository(Repository):
                 {
                     '$set': flow
                 }, upsert=True)
-            old_link = self.db.link_utilization.findone({'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]})
+            old_link = self.db.link_utilization.find_one({'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]})
             old_running_flows = old_link.get('running_flows', None)
             if old_running_flows == None:
                 running_flows = [old_data['_id']]
             else:
                 running_flows = set(old_running_flows + old_data['_id'])
 
-            self.db.link_utilization.updateone(
+            self.db.link_utilization.update_one(
                 {'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]},
                 {
                     '$addToSet': {'running_flows':running_flows}
