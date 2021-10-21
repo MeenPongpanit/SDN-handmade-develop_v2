@@ -7,7 +7,7 @@ client = MongoClient('localhost', 27017)
 # devices = client.sdn01.device.find() #client.(database).(collection).find()
 
 class set_netflow_worker(Thread):
-    def run(seld, device):
+    def run(seld, device, management_ip):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(device['management_ip'], port=22, username=device['ssh_info']['username'], password=device['ssh_info']['password'])
@@ -37,7 +37,7 @@ class set_netflow_worker(Thread):
                         remote_connect.send(command)
                         time.sleep(0.5)
                         #print(remote_connect.recv(10000))
-        ip = '10.50.34.37' #ip management device get from db later
+        ip = management_ip #ip management device get from db later
         port = '23456'
         for command in ['ip flow-export destination '+ip+' '+port+'\n', 'ip flow-export version 9\n', 'ip flow-cache timeout active 1\n', 'ip flow-cache timeout inactive 15\n', 'ip flow-export template refresh-rate 1\n']:
             remote_connect.send(command)
