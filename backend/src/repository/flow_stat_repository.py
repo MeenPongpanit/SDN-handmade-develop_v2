@@ -323,20 +323,21 @@ class FlowStatRepository(Repository):
                 {
                     '$set': flow
                 }, upsert=True)
-            print('NEXT HOP : ', flow['ipv4_next_hop'])
+            print('\nNEXT HOP : ', flow['ipv4_next_hop'])
             old_link = self.db.link_utilization.find_one({'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]})
+            print('\nOLD LINK: ', old_link)
             # old_running_flows = dict(old_link).get('running_flows', None)
-            if old_running_flows == None:
-                running_flows = [old_data['_id']]
-            else:
-                running_flows = set(old_running_flows + old_data['_id'])
+            # if old_running_flows == None:
+                # running_flows = [old_data['_id']]
+            # else:
+                # running_flows = set(old_running_flows + old_data['_id'])
 
-            self.db.link_utilization.update_one(
-                {'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]},
-                {
-                    '$addToSet': {'running_flows':running_flows}
-                }
-            )
+            # self.db.link_utilization.update_one(
+            #     {'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]},
+            #     {
+            #         '$addToSet': {'running_flows':running_flows}
+            #     }
+            # )
 
     def is_flow_exist_by_ip(self, src_ip, dst_ip):
         return self.model.find_one({
