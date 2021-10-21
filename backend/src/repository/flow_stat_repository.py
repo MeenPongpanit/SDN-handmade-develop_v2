@@ -285,7 +285,7 @@ class FlowStatRepository(Repository):
                 else:
                     in_bytes_delta = flow['in_bytes'] - old_in_bytes
                 time_delta = (flow['created_at'] - old_created_at).total_seconds()
-                flow['in_bytes_per_sec'] = in_bytes_delta/time_delta
+                flow['in_bytes_per_sec'] = in_bytes_delta/time_delta*8/1000000
             self.model.update_one(
                 _flow,
                 # {
@@ -310,6 +310,12 @@ class FlowStatRepository(Repository):
                 {
                     '$set': flow
                 }, upsert=True)
+            # self.db.link_utilization.updateone(
+            #     {'$or':[{"src_ip":flow['ipv4_next_hop']}, {"dst_ip":flow['ipv4_next_hop']}]},
+            #     {
+            #         '$addToSet': old_data['_id']
+            #     }
+            # )
 
     def is_flow_exist_by_ip(self, src_ip, dst_ip):
         return self.model.find_one({
