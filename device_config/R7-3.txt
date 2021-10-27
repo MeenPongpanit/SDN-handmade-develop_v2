@@ -12,12 +12,13 @@ no shut
 router ospf 1
 net 192.168.7.48 0.0.0.15 a 0
 net 192.168.7.32 0.0.0.15 a 0
+net 7.7.7.3 0.0.0.0 a 0
 ip domain-name pcn
 crypto key generate rsa mod 1024
 ip ssh version 2
 username cisco password cisco
 enable password cisco
-line vty 0 4
+line vty 0 924
 transport input ssh
 login local
 end

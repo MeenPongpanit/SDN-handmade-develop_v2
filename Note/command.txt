@@ -55,3 +55,15 @@ sudo systemctl mask --now firewalld
 
 
 C:\Program Files\Oracle\VirtualBox
+
+lsof -i tcp:5201
+kill -9 <PID>
+
+
+เช็คneflow ทุกกี่วิ
+iperf ยิงขนาด packet ที่เท่ากันเสมอ หา rate ที่ iperf api byte persecond
+
+curl --insecure "https://10.253.190.1/internal/dologin.php" --data "kerio_username=it61070171&kerio_password=WOVtht56"
+
+
+

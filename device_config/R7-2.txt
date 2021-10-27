@@ -3,6 +3,9 @@ hostname R7_2
 int g0/0
 ip add 192.168.7.50 255.255.255.240
 no shut
+int g0/1
+ip add 192.168.8.1 255.255.255.0
+no shut
 int g0/2
 ip add 192.168.7.18 255.255.255.240
 no shut
@@ -12,12 +15,13 @@ no shut
 router ospf 1
 net 192.168.7.48 0.0.0.15 a 0
 net 192.168.7.16 0.0.0.15 a 0
+net 192.168.8.0 0.0.0.255 a 0
 ip domain-name pcn
 crypto key generate rsa mod 1024
 ip ssh version 2
 username cisco password cisco
 enable password cisco
-line vty 0 4
+line vty 0 924
 transport input ssh
 login local
 end

@@ -1,24 +1,22 @@
-conf t
-hostname R1
+config t
+hostname R2
 int g0/0
-ip add dhcp
+ip add 192.168.4.1 255.255.255.0
 no shut
 int g0/1
-ip add 192.168.1.1 255.255.255.0
+ip add 192.168.1.2 255.255.255.0
 no shut
 int g0/2
-ip add 192.168.2.1 255.255.255.0
+ip add 192.168.10.1 255.255.255.0
 no shut
-int g0/3
-ip add 192.168.7.1 255.255.255.240
+int l0
+ip add 2.2.2.2 255.255.255.255
 no shut
 router ospf 1
-net 10.50.34.0 0.0.0.255 a 0
+net 192.168.4.0 0.0.0.255 a 0
 net 192.168.1.0 0.0.0.255 a 0
-net 192.168.2.0 0.0.0.255 a 0
-net 192.168.7.0 0.0.0.255 a 0
-net 1.1.1.1 0.0.0.0 a 0
-default-info originate
+net 192.168.10.0 0.0.0.255 a 0
+net 2.2.2.2 0.0.0.0 a 0
 ip domain-name pcn
 crypto key generate rsa mod 1024
 ip ssh version 2

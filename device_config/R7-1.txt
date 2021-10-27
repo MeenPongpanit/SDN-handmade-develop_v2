@@ -22,8 +22,10 @@ crypto key generate rsa mod 1024
 ip ssh version 2
 username cisco password cisco
 enable password cisco
-line vty 0 4
+line vty 0 924
 transport input ssh
 login local
 end
 write
+
+
