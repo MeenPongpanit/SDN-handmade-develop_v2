@@ -334,7 +334,7 @@ class FlowStatRepository(Repository):
             # print('\nOLD LINK: ', old_link)
             if old_link != None:
                 all_running_flows = self.model.find(
-                    {'$or':[{'ipv4_next_hop':old_link["src_if_ip"]}, {'ipv4_next_hop':old_link["dst_if_ip"]}}
+                    {'$or':[{'ipv4_next_hop':old_link["src_if_ip"]}, {'ipv4_next_hop':old_link["dst_if_ip"]}]}
                 )
                 all_running_flows_id = [f['_id'] for f in all_running_flows]    
                 self.db.link_utilization.update_one(
