@@ -44,10 +44,6 @@
                 </div>
               </li>
               </li>
-              <li class="nav-item">
-                <router-link active-class="active" class="nav-link" aria-current="true" data-toggle="false" to="/link_visualize">
-                  <i class="fe fe-box"></i> Link Visualize</router-link>
-              </li>
             </ul>
           </div>
         </div>
