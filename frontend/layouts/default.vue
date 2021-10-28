@@ -43,7 +43,6 @@
                   <router-link data-toggle="false" active-class="active" class="dropdown-item " to="/system/setting" exact>Setting</router-link>
                 </div>
               </li>
-              </li>
             </ul>
           </div>
         </div>
