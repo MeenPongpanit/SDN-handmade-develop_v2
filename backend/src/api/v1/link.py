@@ -5,7 +5,7 @@ from sanic.views import HTTPMethodView
 
 class LinkView(HTTPMethodView):
 
-    def get(self, request, _id=None):  
+    def get(self, request, _id=None):
         if _id is None:
             links = request.app.db['link_utilization'].get_all()
             return json({"links": links, "status": "ok"}, dumps=dumps)

@@ -328,21 +328,21 @@ class FlowStatRepository(Repository):
                 {
                     '$set': flow
                 }, upsert=True)
-            # flow_id = self.model.find_one(_flow)['_id']
+            flow_id = self.model.find_one(_flow)['_id']
             # print('\nNEXT HOP : ', flow['ipv4_next_hop'])
-            # old_link = self.db.link_utilization.find_one({'$or':[{"src_if_ip":flow['ipv4_next_hop']}, {"dst_if_ip":flow['ipv4_next_hop']}]})
+            old_link = self.db.link_utilization.find_one({'$or':[{"src_if_ip":flow['ipv4_next_hop']}, {"dst_if_ip":flow['ipv4_next_hop']}]})
             # print('\nOLD LINK: ', old_link)
-            # if old_link != None:
-            #     all_running_flows = self.model.find(
-            #         {'$or':[{'ipv4_next_hop':old_link["src_if_ip"]}, {'ipv4_next_hop':old_link["dst_if_ip"]}]}
-            #     )
-            #     all_running_flows_id = [f['_id'] for f in all_running_flows]    
-            #     self.db.link_utilization.update_one(
-            #         {'$or':[{"src_if_ip":flow['ipv4_next_hop']}, {"dst_if_ip":flow['ipv4_next_hop']}]},
-            #         {
-            #             '$set': {'running_flows':all_running_flows_id}
-            #         }
-            #     )
+            if old_link != None:
+                all_running_flows = self.model.find(
+                    {'$or':[{'ipv4_next_hop':old_link["src_if_ip"]}, {'ipv4_next_hop':old_link["dst_if_ip"]}]}
+                )
+                all_running_flows_id = [f['_id'] for f in all_running_flows]    
+                self.db.link_utilization.update_one(
+                    {'$or':[{"src_if_ip":flow['ipv4_next_hop']}, {"dst_if_ip":flow['ipv4_next_hop']}]},
+                    {
+                        '$set': {'running_flows':all_running_flows_id}
+                    }
+                )
 
     def is_flow_exist_by_ip(self, src_ip, dst_ip):
         return self.model.find_one({

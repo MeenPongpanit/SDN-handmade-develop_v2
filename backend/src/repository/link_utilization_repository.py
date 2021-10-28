@@ -43,19 +43,6 @@ class LinkUtilizationRepository(Repository):
         if not ops:
             return
         self.link.bulk_write(ops)
-    
-    def update_running_flows(self):
-        for link in self.model.find():
-            all_running_flows = self.db.flow_stat.find(
-                    {'$or':[{'ipv4_next_hop':link["src_if_ip"]}, {'ipv4_next_hop':link["dst_if_ip"]}]}
-                )
-            all_running_flows_id = [f['_id'] for f in all_running_flows]    
-            self.model.update_one(
-                {'$and':[{"src_if_ip":link['src_if_ip']}, {"dst_if_ip":link['dst_if_ip']}]},
-                {
-                    '$set': {'running_flows':all_running_flows_id}
-                }
-            )
 
     def find_by_if_ip(self, ip1, ip2=None):
         if ip2 is None:
@@ -95,14 +82,11 @@ class LinkUtilizationRepository(Repository):
         return self.link.find_one({'_id': ObjectId(id)})
 
     def get_all(self):
-        self.update_running_flows()
         return self.link.find()
 
     def get_by_id(self, id):
-        self.update_running_flows()
         return self.link.find({'_id': ObjectId(id)})
 
     def get_by_name(self, name):
-        self.update_running_flows()
         self.model.create_index([('src_node_hostname', 'text'), ('dst_node_hostname', 'text')])
         return self.model.find({'$text':{'$search': name}})
