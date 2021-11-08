@@ -127,13 +127,13 @@ def generate_action_command(policy_id, policy_name, action):
     :return:
     """
     # flow_id = flow.get('flow_id')
-
     # Clear old action
     route_map00 = "no route-map SDN-handmade permit {}".format(policy_id)
 
     # Route Map
     route_map01 = "route-map SDN-handmade permit {}".format(policy_id)
     route_map02 = "match ip address {}".format(generate_acl_name(policy_id))
+
 
     # Clear old action
     # route_map03 = ''

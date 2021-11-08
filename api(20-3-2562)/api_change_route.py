@@ -1,6 +1,6 @@
 import requests
 import ipaddress
-ip = "10.30.7.46"
+ip = "10.50.34.37"
 
 def get_wildcard(mask):
     mask = mask.split(".")
@@ -51,19 +51,19 @@ def change_route(path, src_mgmtip, dst_mgmtip):
         action = {'device_id':device_id, 'action':2, 'data':get_nexthop_from_management_ip(path[i], path[i+1])}
         new_flow['actions'].append(action)
     response = requests.post("http://"+ip+":5001/api/v1/flow/routing", json=new_flow)
+    print(response.json())
     print("change route success")
+
 
 def get_path(src_mgmtip, dst_mgmtip):
     paths = requests.get("http://"+ip+":5001/api/v1/path/"+src_mgmtip+","+dst_mgmtip).json()
     nexthop_node = find_nexthop_node(src_mgmtip, dst_mgmtip)
-    for path in paths['paths']:
-        if (path['nexthop_node'] != nexthop_node):
-            change_route(path['path'], src_mgmtip, dst_mgmtip)
-            break
+    change_route(['192.168.8.1', '192.168.7.34', '192.168.7.17', '192.168.1.1', '192.168.1.2', '192.168.4.2'], src_mgmtip, dst_mgmtip)
+
 
 #get_mask("100.3.11.1")
 #find_nexthop_node("100.3.11.1", "100.3.12.1")
-get_path("100.3.11.1", "100.3.12.1") # A->A'
+get_path("192.168.8.1", "192.168.4.2") # A->A'
 #get_path("100.1.3.1", "100.1.5.1") # A'->A''
 #get_path("100.1.5.1", "100.1.1.1") # A''->A
 #get_path("100.1.2.1", "100.1.4.1") # B->B'
