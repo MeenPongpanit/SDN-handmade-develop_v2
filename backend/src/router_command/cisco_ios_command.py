@@ -89,7 +89,7 @@ def _generate_policy_command(flow):
     elif flow['pending']['src_wildcard'] is None:
         acl_command3 += ' host {}'.format(flow['pending']['src_ip'])
     else:
-        acl_command3 += ' {} {}'.format(flow['192.168.5.5', flow['pending']['src_wildcard'])
+        acl_command3 += ' {} {}'.format(flow['pending']['src_ip'] , flow['pending']['src_wildcard'])
     if flow['pending']['src_port'] is not None:
         if '-' in flow['pending']['src_port']:
             port = flow['pending']['src_port'].split('-')
@@ -118,7 +118,9 @@ def _generate_policy_command(flow):
     acl_command4 = acl_command3.replace('10 permit udp', '20 permit tcp', '30 permit icmp')
     acl_command5 = acl_command3.replace('10 permit udp', '30 permit icmp')
 
-    return [acl_command0, acl_command1, acl_command2, acl_command3, acl_command4, acl_command5]
+    
+    print([acl_command0, acl_command1, acl_command2, acl_command3, acl_command4, acl_command5])
+    # return [acl_command0, acl_command1, acl_command2, acl_command3, acl_command4, acl_command5]
 
 
 def generate_action_command(policy_id, policy_name, action):
