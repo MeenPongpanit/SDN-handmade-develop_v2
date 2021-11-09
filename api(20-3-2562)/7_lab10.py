@@ -62,6 +62,7 @@ def change_route(path, src_net, src_mgmtip, dst_mgmtip):
         action = {'device_id':device_id, 'action':2, 'data':get_nexthop_from_management_ip(path[i], path[i+1])}
         new_flow['actions'].append(action)
     response = requests.post("http://"+ip+":5001/api/v1/flow/routing", json=new_flow)
+    print(response)
     print(path)
     print("change route success")
 
