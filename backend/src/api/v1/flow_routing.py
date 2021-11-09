@@ -14,44 +14,47 @@ class FlowRoutingView(HTTPMethodView):
         flows = request.app.db['flow_routing'].get_all()
         return json({"flows": flows, "status": "ok"}, dumps=dumps)
 
-    # def post(self, request):
-    #     try:
-    #         actions = []
-    #         for action in request.json['actions']:
-    #             actions.append({
-    #                 'device_id': action['device_id'],
-    #                 # 'management_ip': action['management_ip'],
-    #                 'action': int(action['action']),
-    #                 'data': action['data']
-    #             })
+    def post(self, request):
+        try:
+            actions = []
+            print("============")
+            print(request.json['actions'])
+            print("============")
+            for action in request.json['actions']:
+                actions.append({
+                    'device_id': action['device_id'],
+                    # 'management_ip': action['management_ip'],
+                    'action': int(action['action']),
+                    'data': action['data']
+                })
 
-    #         policy = {
-    #             # 'policy_id': policy_id,
-    #             'new_flow': {
-    #                 'name': request.json['name'],
-    #                 'src_ip': request.json['src_ip'],
-    #                 'src_port': request.json['src_port'],
-    #                 'src_wildcard': request.json['src_subnet'],
-    #                 'dst_ip': request.json['dst_ip'],
-    #                 'dst_port': request.json['dst_port'],
-    #                 'dst_wildcard': request.json['dst_subnet'],
-    #                 'actions': actions,
-    #             },
-    #             'info': {
-    #                 'submit_from': {
-    #                     'type': PolicyRoute.TYPE_STATIC,
-    #                     'user': 'Unknown - Todo Implement'
-    #                 },
-    #                 'status': PolicyRoute.STATUS_WAIT_APPLY
-    #             }
-    #         }
-    #     except (KeyError, ValueError) as e:
-    #         print(e)
-    #         return json({'success': False, 'message': 'Invalid form'})
+            policy = {
+                # 'policy_id': policy_id,
+                'new_flow': {
+                    'name': request.json['name'],
+                    'src_ip': request.json['src_ip'],
+                    'src_port': request.json['src_port'],
+                    'src_wildcard': request.json['src_subnet'],
+                    'dst_ip': request.json['dst_ip'],
+                    'dst_port': request.json['dst_port'],
+                    'dst_wildcard': request.json['dst_subnet'],
+                    'actions': actions,
+                },
+                'info': {
+                    'submit_from': {
+                        'type': PolicyRoute.TYPE_STATIC,
+                        'user': 'Unknown - Todo Implement'
+                    },
+                    'status': PolicyRoute.STATUS_WAIT_APPLY
+                }
+            }
+        except (KeyError, ValueError) as e:
+            print(e)
+            return json({'success': False, 'message': 'Invalid form'})
 
-    #     policy_repo = request.app.db['flow_routing']
-    #     policy_repo.add_or_update_flow_routing(policy)
-    #     return json({'status': 'sdfdsfdsok'}, status=201)
+        policy_repo = request.app.db['flow_routing']
+        policy_repo.add_or_update_flow_routing(policy)
+        return json({'status': 'ok'}, status=201)
 
     def patch(self, request):
         try:
