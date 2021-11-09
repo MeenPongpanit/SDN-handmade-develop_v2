@@ -10,7 +10,7 @@ ip policy route-map SDN-handmade
 
 
 sh access-list
-sh route-map //SDN-handmade-policy-1
+sh route-map
 sh ip policy
 
 
