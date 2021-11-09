@@ -126,10 +126,6 @@ def generate_action_command(policy_id, policy_name, action):
     Using route-map
     :return:
     """
-    print("@@@@@@@@@@@@@@@")
-    print(action)
-    print("@@@@@@@@@@@@@@@")
-    dfsdfdsf
     # flow_id = flow.get('flow_id')
     # Clear old action
     route_map00 = "no route-map SDN-handmade permit {}".format(policy_id)
