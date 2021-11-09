@@ -62,7 +62,7 @@ def path(src_node_ip, dst_node_ip):
 #flow()
 #flow_routing()
 path(input("src_node_ip : "), input("dst_node_ip : "))
-=======
+#=======
 import requests
 
 #device
@@ -126,4 +126,4 @@ def path(src_node_ip, dst_node_ip):
 #flow()
 #flow_routing()
 path(input("src_node_ip : "), input("dst_node_ip : "))
->>>>>>> 5d0d22bde1fe001196028b13b3b50c82f89a330e
+#>>>>>>> 5d0d22bde1fe001196028b13b3b50c82f89a330e
