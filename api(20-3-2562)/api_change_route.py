@@ -52,13 +52,13 @@ def change_route(path, src_mgmtip, dst_mgmtip):
         new_flow['actions'].append(action)
     response = requests.post("http://"+ip+":5001/api/v1/flow/routing", json=new_flow)
     print(response.json())
-    print("change route success")
+    print("change radsfsdfsdfoute success")
 
 
 def get_path(src_mgmtip, dst_mgmtip):
     paths = requests.get("http://"+ip+":5001/api/v1/path/"+src_mgmtip+","+dst_mgmtip).json()
     nexthop_node = find_nexthop_node(src_mgmtip, dst_mgmtip)
-    change_route(['192.168.8.1', '192.168.7.34', '192.168.7.17', '192.168.1.1', '192.168.1.2'], src_mgmtip, dst_mgmtip)
+    change_route(['192.168.8.1', '192.168.7.49', '192.168.7.17', '192.168.1.1', '192.168.1.2'], '192.168.8.1', src_mgmtip, dst_mgmtip)
 
 
 #get_mask("100.3.11.1")

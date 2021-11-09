@@ -1,6 +1,6 @@
 import requests
 import ipaddress
-ip = "10.30.7.46"
+ip = "10.50.34.37"
 
 def get_wildcard(mask):
     mask = mask.split(".")
@@ -24,6 +24,8 @@ def get_nexthop_from_management_ip(device_id1, device_id2):
             return link['src_ip']
 
 def get_device_ip_from_device_id(device_id):
+    print("http://"+ip+":5001/api/v1/device/"+device_id)
+    print(requests.get("http://"+ip+":5001/api/v1/device/"+device_id).json())
     return requests.get("http://"+ip+":5001/api/v1/device/"+device_id).json()['device'][0]['device_ip']
 
 def get_device_id_from_network(network):
@@ -39,7 +41,7 @@ def get_network(mgmtip):
 
 def get_device_id(mgmtip):
     device = requests.get("http://"+ip+":5001/api/v1/device/mgmtip/"+mgmtip).json()['device']
-    return device['_id']['$oid'];
+    return device['_id']['$oid']
 
 def find_nexthop_node(src_mgmtip, dst_mgmtip):
     routes = requests.get("http://"+ip+":5001/api/v1/routes/"+get_device_id(src_mgmtip)).json()
@@ -71,21 +73,23 @@ def my_path(paths):
     return True
 
 def get_path(src_net, dst_mgmtip, nexthop_node=None):
-    src_mgmtip = get_device_ip_from_device_id(get_device_id_from_network(src_net))
-    paths = requests.get("http://"+ip+":5001/api/v1/path/"+src_mgmtip+","+dst_mgmtip).json()
-    if nexthop_node is None:
-        nexthop_node = find_nexthop_node(src_mgmtip, dst_mgmtip)
-    for path in paths['paths']:
-        if (path['nexthop_node'] == nexthop_node and my_path(path['path'])):
-            change_route(path['path'], src_net, src_mgmtip, dst_mgmtip)
-            break
+    print(get_device_id_from_network(src_net))
+    # src_mgmtip = get_device_ip_from_device_id(get_device_id_from_network(src_net))
+    src_mgmtip = '192.168.8.1'
+    # paths = requests.get("http://"+ip+":5001/api/v1/path/"+src_mgmtip+","+dst_mgmtip).json()
+    # if nexthop_node is None:
+    #     nexthop_node = find_nexthop_node(src_mgmtip, dst_mgmtip)
+    # for path in paths['paths']:
+    #     if (path['nexthop_node'] == nexthop_node and my_path(path['path'])):
+    change_route(['192.168.8.1', '192.168.7.34', '192.168.7.17', '192.168.1.1', '192.168.1.2'], src_net, src_mgmtip, dst_mgmtip)
+            # break
 
 
 #print(get_device_id_from_network("100.1.2.0"))
 #print(get_device_ip_from_device_id(get_device_id_from_network("100.1.1.0")))
 
-get_path("100.1.1.0", "100.1.3.1", "100.1.7.6") # A1->B
-get_path("100.1.2.0", "100.1.3.1", "100.1.7.1") # A2->B
+get_path("192.168.8.1", "192.168.1.2", "192.168.7.49") # A1->B
+# get_path("100.1.2.0", "100.1.3.1", "100.1.7.1") # A2->B
 
 #get_mask("100.3.11.1")
 #find_nexthop_node("100.3.11.1", "100.3.12.1")
