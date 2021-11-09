@@ -85,11 +85,11 @@ def _generate_policy_command(flow):
     # Set ACL rule
     acl_command3 = "10 permit udp"
     if flow['pending']['src_ip'] == 'any':
-        acl_command3 += ' 192.168.8.1'
+        acl_command3 += ' any'
     elif flow['pending']['src_wildcard'] is None:
         acl_command3 += ' host {}'.format(flow['pending']['src_ip'])
     else:
-        acl_command3 += ' {} {}'.format(flow['pending']['src_ip'], flow['pending']['src_wildcard'])
+        acl_command3 += ' {} {}'.format(flow['192.168.5.5', flow['pending']['src_wildcard'])
     if flow['pending']['src_port'] is not None:
         if '-' in flow['pending']['src_port']:
             port = flow['pending']['src_port'].split('-')
