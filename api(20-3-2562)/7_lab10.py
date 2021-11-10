@@ -49,6 +49,11 @@ def find_nexthop_node(src_mgmtip, dst_mgmtip):
         if get_network(dst_mgmtip) == route['dst']:
             return requests.get("http://"+ip+":5001/api/v1/device/"+route['next_hop']).json()['device']['management_ip']
 
+# def get_interface(ip):
+#     interface = ip
+#     print(interface)
+#     return str(interface)
+
 def change_route(path, src_net, src_mgmtip, dst_mgmtip):
     src_mask = get_wildcard(get_mask(src_mgmtip))
     dst_mask = get_wildcard(get_mask(dst_mgmtip))
@@ -59,11 +64,15 @@ def change_route(path, src_net, src_mgmtip, dst_mgmtip):
             path[i]
         )).json()
         device_id = device['device']['_id']['$oid']
-        action = {'device_id':device_id, 'action':2, 'data':get_nexthop_from_management_ip(path[i], path[i+1])}
+        next_hop_ip = get_nexthop_from_management_ip(path[i], path[i+1])
+        # if i >= 1:
+        #     interface = get_interface(next_hop_ip)
+        # else:
+        #     interface = get_interface(src_net)
+        interface = 'int'
+        action = {'device_id':device_id, 'action':2, 'interface':interface, 'data':next_hop_ip}
         new_flow['actions'].append(action)
     response = requests.post("http://"+ip+":5001/api/v1/flow/routing", json=new_flow)
-    print(response)
-    print(path)
     print("change route success")
 
 def my_path(paths):
