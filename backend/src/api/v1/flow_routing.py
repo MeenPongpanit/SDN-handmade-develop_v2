@@ -22,8 +22,8 @@ class FlowRoutingView(HTTPMethodView):
                     'device_id': action['device_id'],
                     # 'management_ip': action['management_ip'],
                     'action': int(action['action']),
-                    'interface':'test',
-                    'data': action['data']
+                    'data': action['data'],
+                    'interface': action['interface']
                 })
 
             policy = {
