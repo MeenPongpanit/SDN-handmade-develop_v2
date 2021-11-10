@@ -1,4 +1,4 @@
-ip access-list extended SDN
+ip access-list extended SDN-handmade-policy-1
 10 permit udp 192.168.8.1 0.0.0.255 192.168.4.2 255.255.255.0
 20 permit tcp 192.168.8.1 0.0.0.255 192.168.4.2 255.255.255.0
 30 permit icmp 192.168.8.1 0.0.0.255 192.168.4.2 255.255.255.0
@@ -13,6 +13,15 @@ sh access-list
 sh route-map
 sh ip policy
 
+
+{'paths': [
+
+{'route_id': '192.168.8.1,192.168.7.34,192.168.1.2', 'start_node': '192.168.8.1', 'nexthop_node': '192.168.7.34', 'end_node': '192.168.1.2', 
+'path': ['192.168.8.1', '192.168.7.34', '192.168.7.17', '192.168.1.1', '192.168.1.2']},
+
+ {'route_id': '192.168.8.1,192.168.7.17,192.168.1.2', 'start_node': '192.168.8.1', 'nexthop_node': '192.168.7.17', 'end_node': '192.168.1.2', 'path': ['192.168.8.1', '192.168.7.17', '192.168.1.1', '192.168.1.2']}], 'status': 'ok'}
+
+D:\Desktop\Work\SDN-handmade-develop_v2\backend\src\cli\config_mode\config_command.py
 
 
 

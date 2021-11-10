@@ -17,9 +17,6 @@ class FlowRoutingView(HTTPMethodView):
     def post(self, request):
         try:
             actions = []
-            print("============")
-            print(request.json['actions'])
-            print("============")
             for action in request.json['actions']:
                 actions.append({
                     'device_id': action['device_id'],
@@ -53,6 +50,9 @@ class FlowRoutingView(HTTPMethodView):
             return json({'success': False, 'message': 'Invalid form'})
 
         policy_repo = request.app.db['flow_routing']
+        print("=========")
+        print(policy)
+        print("=========")
         policy_repo.add_or_update_flow_routing(policy)
         return json({'status': 'ok'}, status=201)
 
