@@ -16,8 +16,6 @@ class FlowRoutingView(HTTPMethodView):
 
     def post(self, request):
         try:
-            for i in request.json():
-                print(i)
             actions = []
             for action in request.json['actions']:
                 actions.append({
