@@ -1,4 +1,4 @@
-from bson.json_util import dumps
+from bson.json_util import dumps, loads
 from sanic.response import json
 from sanic.views import HTTPMethodView
 
@@ -6,7 +6,7 @@ from sanic.views import HTTPMethodView
 class GraphView(HTTPMethodView):
 
     def get(self, request):
-        data = json.loads(dumps(request.app.db['link_utilization'].get_all()))
+        data = loads(dumps(request.app.db['link_utilization'].get_all()))
         nodes = {}
         edges = {}
         for link in data:
