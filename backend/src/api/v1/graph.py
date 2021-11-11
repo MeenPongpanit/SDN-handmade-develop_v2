@@ -7,7 +7,7 @@ from json
 class GraphView(HTTPMethodView):
 
     def get(self, request):
-        data = request.app.db['link_utilization'].get_all().json()
+        data = request.app.db['link_utilization'].get_all()
         print("================")
         print("================")
         print("================")
