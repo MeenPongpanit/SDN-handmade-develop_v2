@@ -395,41 +395,42 @@ class ConfigCommand(SDNCommand):
         else:
             print("Incomplete command. Usage: add [command]")
 
-    # def _add_flow(self, name, args):
-    #     """ Checking and add flow"""
-    #     flow = {
-    #         'name': name,
-    #         'src_ip': None,
-    #         'src_port': None,
-    #         'src_wildcard': None,
-    #         'dst_ip': None,
-    #         'dst_port': None,
-    #         'dst_wildcard': None,
-    #     }
-    #     if len(args) == 2:
-    #         flow['src_ip'] = args[0]
-    #         flow['dst_ip'] = args[1]
-    #         self.topology.add_flow(flow)
-    #     elif len(args) == 3:
-    #         print("Not implement yet.")
-    #     elif len(args) == 4:
-    #         flow['src_ip'] = args[0]
-    #         if sdn_utils.is_int(args[1]):
-    #             flow['src_port'] = int(args[1])
-    #         else:
-    #             flow['src_wildcard'] = args[1]
+    def _add_flow(self, name, args):
+        """ Checking and add flow"""
+        """not implement yet"""
+        flow = {
+            'name': name,
+            'src_ip': None,
+            'src_port': None,
+            'src_wildcard': None,
+            'dst_ip': None,
+            'dst_port': None,
+            'dst_wildcard': None,
+        }
+        if len(args) == 2:
+            flow['src_ip'] = args[0]
+            flow['dst_ip'] = args[1]
+            self.topology.add_flow(flow)
+        elif len(args) == 3:
+            print("Not implement yet.")
+        elif len(args) == 4:
+            flow['src_ip'] = args[0]
+            if sdn_utils.is_int(args[1]):
+                flow['src_port'] = int(args[1])
+            else:
+                flow['src_wildcard'] = args[1]
 
-    #         flow['dst_ip'] = args[2]
-    #         if sdn_utils.is_int(args[3]):
-    #             flow['dst_port'] = int(args[3])
-    #         else:
-    #             flow['dst_wildcard'] = args[3]
+            flow['dst_ip'] = args[2]
+            if sdn_utils.is_int(args[3]):
+                flow['dst_port'] = int(args[3])
+            else:
+                flow['dst_wildcard'] = args[3]
 
-    #         print(flow)
-    #         self.topology.add_flow(flow)
+            print(flow)
+            self.topology.add_flow(flow)
 
-    #     else:
-    #         print("Incorrect command.")
+        else:
+            print("Incorrect command.")
 
     def complete_add(self, text, line, begidx, endidx):
         args = line.split(" ")
