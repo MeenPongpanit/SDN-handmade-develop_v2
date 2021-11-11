@@ -6,15 +6,7 @@ from sanic.views import HTTPMethodView
 class GraphView(HTTPMethodView):
 
     def get(self, request):
-        data = request.app.db['link_utilization'].get_all()
-        print("================")
-        print("================")
-        print("================")
-        print(data)
-        print("================")
-        print(dumps(data))
-        print("================")
-        print("================")
+        data = dumps(request.app.db['link_utilization'].get_all())
         nodes = {}
         edges = {}
         for link in data:
@@ -28,6 +20,6 @@ class GraphView(HTTPMethodView):
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges}
         flows = request.app.db['flow_stat'].get_all().sort("in_bytes", -1)
-        return json({"graph": graph, "status": "ok"}, dumps=dumps)
+        return json({"graph": graph, "status": "ok"})
 
 
