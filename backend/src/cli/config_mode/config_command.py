@@ -206,58 +206,58 @@ class FlowCommand(SDNCommand):
 
         print(self.new_flow)
 
-    def do_set(self, args):
-        args = args.split(' ')
-        if len(args) < 3:
-            print('Incomplete command')
-            return
+    # def do_set(self, args):
+    #     args = args.split(' ')
+    #     if len(args) < 3:
+    #         print('Incomplete command')
+    #         return
 
-        # Check device is exist
-        device_ip = args[1]
-        device = self.device_repository.get_device_by_mgmt_ip(device_ip)
-        # device = self.topology.get_device_by_ip(device_ip)
-        if device is None:
-            print("Can't find device IP {}".format(device_ip))
-            return
-        action = args[2]
-        if action not in ('next-hop', 'exit-if', 'drop'):
-            print("Action must be {}".format(('next-hop', 'exit-if', 'drop')))
-            return
-        if action == 'next-hop':
-            action_n = repository.PolicyRoute.ACTION_NEXT_HOP_IP
-        elif action == 'exit-if':
-            action_n = repository.PolicyRoute.ACTION_EXIT_IF
-        else:
-            action_n = repository.PolicyRoute.ACTION_DROP
+    #     # Check device is exist
+    #     device_ip = args[1]
+    #     device = self.device_repository.get_device_by_mgmt_ip(device_ip)
+    #     # device = self.topology.get_device_by_ip(device_ip)
+    #     if device is None:
+    #         print("Can't find device IP {}".format(device_ip))
+    #         return
+    #     action = args[2]
+    #     if action not in ('next-hop', 'exit-if', 'drop'):
+    #         print("Action must be {}".format(('next-hop', 'exit-if', 'drop')))
+    #         return
+    #     if action == 'next-hop':
+    #         action_n = repository.PolicyRoute.ACTION_NEXT_HOP_IP
+    #     elif action == 'exit-if':
+    #         action_n = repository.PolicyRoute.ACTION_EXIT_IF
+    #     else:
+    #         action_n = repository.PolicyRoute.ACTION_DROP
 
-        print("@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@")
-        print(args)
-        print("@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print(args)
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
+    #     print("@@@@@@@@@@@@@@@@")
 
-        try:
-            data = args[3]
-        except (ValueError, IndexError, KeyError):
-            data = ""
+    #     try:
+    #         data = args[3]
+    #     except (ValueError, IndexError, KeyError):
+    #         data = ""
 
-        actions = self.new_flow['actions']
-        for action in actions:
-            if action['device_id'] == device['_id']:
-                action['action'] = action_n
-                action['data'] = data
-                return
+    #     actions = self.new_flow['actions']
+    #     for action in actions:
+    #         if action['device_id'] == device['_id']:
+    #             action['action'] = action_n
+    #             action['data'] = data
+    #             return
 
-        actions.append({
-            'device_id': device['_id'],
-            'action': action_n,
-            'data': data
-        })
-        print(self.new_flow)
+    #     actions.append({
+    #         'device_id': device['_id'],
+    #         'action': action_n,
+    #         'data': data
+    #     })
+    #     print(self.new_flow)
 
     def do_no(self, args):
         try:
