@@ -24,4 +24,8 @@ sh ip policy
 D:\Desktop\Work\SDN-handmade-develop_v2\backend\src\cli\config_mode\config_command.py
 
 
+{'paths': [{'route_id': '192.168.8.1,192.168.7.34,192.168.1.2', 'start_node': '192.168.8.1', 'nexthop_node': '192.168.7.34', 'end_node': '192.168.1.2', 'path': ['192.168.8.1', '192.168.7.34', '192.168.7.17', '192.168.1.1', '192.168.1.2']}, {'route_id': '192.168.8.1,192.168.7.17,192.168.1.2', 'start_node': '192.168.8.1', 'nexthop_node': '192.168.7.17', 'end_node': '192.168.1.2', 'path': ['192.168.8.1', '192.168.7.17', '192.168.1.1', '192.168.1.2']}], 'status': 'ok'}
+
+
+10 -27
 
