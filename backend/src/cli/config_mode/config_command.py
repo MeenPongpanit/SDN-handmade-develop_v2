@@ -277,40 +277,41 @@ class FlowCommand(SDNCommand):
         self.flow_routing_repository.add_or_update_flow_routing(self.flow)
         print("Apply flow to queue success.")
 
-    # def do_detail(self, args):
-    #     print('================== Flow name: {} =================='.format(self.name))
-    #     print("MATCH: ", end='')
-    #     src_ip = netaddr.IPNetwork(self.new_flow['src_ip'] + "/" + self.new_flow['src_wildcard'])
-    #     print("SRC {host}/{prefix} {port}".format(
-    #         host=str(src_ip.ip),
-    #         prefix=str(src_ip.prefixlen),
-    #         port=self.new_flow['src_port']
-    #     ))
-    #     dst_ip = netaddr.IPNetwork(self.new_flow['dst_ip'] + "/" + self.new_flow['dst_wildcard'])
-    #     print("       DST {host}/{prefix} {port}".format(
-    #         host=str(dst_ip.ip),
-    #         prefix=str(dst_ip.prefixlen),
-    #         port=self.new_flow['src_port']
-    #     ))
+    def do_detail(self, args):
+        """not using for now"""
+        print('================== Flow name: {} =================='.format(self.name))
+        print("MATCH: ", end='')
+        src_ip = netaddr.IPNetwork(self.new_flow['src_ip'] + "/" + self.new_flow['src_wildcard'])
+        print("SRC {host}/{prefix} {port}".format(
+            host=str(src_ip.ip),
+            prefix=str(src_ip.prefixlen),
+            port=self.new_flow['src_port']
+        ))
+        dst_ip = netaddr.IPNetwork(self.new_flow['dst_ip'] + "/" + self.new_flow['dst_wildcard'])
+        print("       DST {host}/{prefix} {port}".format(
+            host=str(dst_ip.ip),
+            prefix=str(dst_ip.prefixlen),
+            port=self.new_flow['src_port']
+        ))
 
-    #     print("Actions")
-    #     i = 1
-    #     for action in self.new_flow['actions']:
-    #         device = self.device_repository.get_device_by_id(action['device_id'])
-    #         action_text = 'None'
-    #         if action['action'] == repository.PolicyRoute.ACTION_DROP:
-    #             action_text = 'drop'
-    #         elif action['action'] == repository.PolicyRoute.ACTION_NEXT_HOP_IP:
-    #             action_text = 'next-hop'
-    #         elif action['action'] == repository.PolicyRoute.ACTION_EXIT_IF:
-    #             action_text = 'exit-if'
+        print("Actions")
+        i = 1
+        for action in self.new_flow['actions']:
+            device = self.device_repository.get_device_by_id(action['device_id'])
+            action_text = 'None'
+            if action['action'] == repository.PolicyRoute.ACTION_DROP:
+                action_text = 'drop'
+            elif action['action'] == repository.PolicyRoute.ACTION_NEXT_HOP_IP:
+                action_text = 'next-hop'
+            elif action['action'] == repository.PolicyRoute.ACTION_EXIT_IF:
+                action_text = 'exit-if'
 
-    #         print("Device: {device_ip:22} -> {action:10} {data}".format(
-    #             device_ip=device['management_ip'],
-    #             action=action_text,
-    #             data=action['data']
-    #         ))
-    #         i += 1
+            print("Device: {device_ip:22} -> {action:10} {data}".format(
+                device_ip=device['management_ip'],
+                action=action_text,
+                data=action['data']
+            ))
+            i += 1
 
 
 class ConfigCommand(SDNCommand):
@@ -394,41 +395,41 @@ class ConfigCommand(SDNCommand):
         else:
             print("Incomplete command. Usage: add [command]")
 
-    def _add_flow(self, name, args):
-        """ Checking and add flow"""
-        flow = {
-            'name': name,
-            'src_ip': None,
-            'src_port': None,
-            'src_wildcard': None,
-            'dst_ip': None,
-            'dst_port': None,
-            'dst_wildcard': None,
-        }
-        if len(args) == 2:
-            flow['src_ip'] = args[0]
-            flow['dst_ip'] = args[1]
-            self.topology.add_flow(flow)
-        elif len(args) == 3:
-            print("Not implement yet.")
-        elif len(args) == 4:
-            flow['src_ip'] = args[0]
-            if sdn_utils.is_int(args[1]):
-                flow['src_port'] = int(args[1])
-            else:
-                flow['src_wildcard'] = args[1]
+    # def _add_flow(self, name, args):
+    #     """ Checking and add flow"""
+    #     flow = {
+    #         'name': name,
+    #         'src_ip': None,
+    #         'src_port': None,
+    #         'src_wildcard': None,
+    #         'dst_ip': None,
+    #         'dst_port': None,
+    #         'dst_wildcard': None,
+    #     }
+    #     if len(args) == 2:
+    #         flow['src_ip'] = args[0]
+    #         flow['dst_ip'] = args[1]
+    #         self.topology.add_flow(flow)
+    #     elif len(args) == 3:
+    #         print("Not implement yet.")
+    #     elif len(args) == 4:
+    #         flow['src_ip'] = args[0]
+    #         if sdn_utils.is_int(args[1]):
+    #             flow['src_port'] = int(args[1])
+    #         else:
+    #             flow['src_wildcard'] = args[1]
 
-            flow['dst_ip'] = args[2]
-            if sdn_utils.is_int(args[3]):
-                flow['dst_port'] = int(args[3])
-            else:
-                flow['dst_wildcard'] = args[3]
+    #         flow['dst_ip'] = args[2]
+    #         if sdn_utils.is_int(args[3]):
+    #             flow['dst_port'] = int(args[3])
+    #         else:
+    #             flow['dst_wildcard'] = args[3]
 
-            print(flow)
-            self.topology.add_flow(flow)
+    #         print(flow)
+    #         self.topology.add_flow(flow)
 
-        else:
-            print("Incorrect command.")
+    #     else:
+    #         print("Incorrect command.")
 
     def complete_add(self, text, line, begidx, endidx):
         args = line.split(" ")
