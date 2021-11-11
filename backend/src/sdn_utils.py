@@ -175,16 +175,5 @@ def generate_flow_command(flow, action, current_action):
     else:
         rmap_3 = ''
 
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print([acl_command0, acl_command1, acl_command2, acl_command3, acl_command4, acl_command5, rmap_1, rmap_2, rmap_21,
-            rmap_3])
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-
-    return [acl_command0, acl_command1, acl_command2, acl_command3, acl_command4, acl_command5, rmap_1, rmap_2, rmap_21,
-            rmap_3]
+    # return [acl_command0, acl_command1, acl_command2, acl_command3, acl_command4, acl_command5, rmap_1, rmap_2, rmap_21,
+    #         rmap_3]
