@@ -1,7 +1,6 @@
 from bson.json_util import dumps
 from sanic.response import json
 from sanic.views import HTTPMethodView
-from json
 
 
 class GraphView(HTTPMethodView):
@@ -13,6 +12,7 @@ class GraphView(HTTPMethodView):
         print("================")
         print(data)
         print("================")
+        print(dumps(data))
         print("================")
         print("================")
         nodes = {}
