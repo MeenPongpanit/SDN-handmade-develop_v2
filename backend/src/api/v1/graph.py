@@ -1,12 +1,13 @@
 from bson.json_util import dumps
 from sanic.response import json
 from sanic.views import HTTPMethodView
+from json
 
 
 class GraphView(HTTPMethodView):
 
     def get(self, request):
-        data = request.app.db['link_utilization'].get_all()
+        data = json.dump(request.app.db['link_utilization'].get_all())
         print("================")
         print("================")
         print("================")
