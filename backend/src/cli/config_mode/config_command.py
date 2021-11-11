@@ -207,9 +207,6 @@ class FlowCommand(SDNCommand):
         print(self.new_flow)
 
     def do_set(self, args):
-        print("@@@@@@@@@@@")
-        print(args)
-        print("@@@@@@@@@@@")
         args = args.split(' ')
         if len(args) < 3:
             print('Incomplete command')
@@ -232,6 +229,16 @@ class FlowCommand(SDNCommand):
             action_n = repository.PolicyRoute.ACTION_EXIT_IF
         else:
             action_n = repository.PolicyRoute.ACTION_DROP
+
+        print("@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@")
+        print(args)
+        print("@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@")
 
         try:
             data = args[3]
