@@ -207,6 +207,9 @@ class FlowCommand(SDNCommand):
         print(self.new_flow)
 
     def do_set(self, args):
+        print("@@@@@@@@@@@")
+        print(args)
+        print("@@@@@@@@@@@")
         args = args.split(' ')
         if len(args) < 3:
             print('Incomplete command')
