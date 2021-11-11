@@ -206,58 +206,50 @@ class FlowCommand(SDNCommand):
 
         print(self.new_flow)
 
-    # def do_set(self, args):
-    #     args = args.split(' ')
-    #     if len(args) < 3:
-    #         print('Incomplete command')
-    #         return
+    def do_set(self, args):
+        """don't know where it use"""
+        args = args.split(' ')
+        if len(args) < 3:
+            print('Incomplete command')
+            return
 
-    #     # Check device is exist
-    #     device_ip = args[1]
-    #     device = self.device_repository.get_device_by_mgmt_ip(device_ip)
-    #     # device = self.topology.get_device_by_ip(device_ip)
-    #     if device is None:
-    #         print("Can't find device IP {}".format(device_ip))
-    #         return
-    #     action = args[2]
-    #     if action not in ('next-hop', 'exit-if', 'drop'):
-    #         print("Action must be {}".format(('next-hop', 'exit-if', 'drop')))
-    #         return
-    #     if action == 'next-hop':
-    #         action_n = repository.PolicyRoute.ACTION_NEXT_HOP_IP
-    #     elif action == 'exit-if':
-    #         action_n = repository.PolicyRoute.ACTION_EXIT_IF
-    #     else:
-    #         action_n = repository.PolicyRoute.ACTION_DROP
+        # Check device is exist
+        device_ip = args[1]
+        device = self.device_repository.get_device_by_mgmt_ip(device_ip)
+        # device = self.topology.get_device_by_ip(device_ip)
+        if device is None:
+            print("Can't find device IP {}".format(device_ip))
+            return
+        action = args[2]
+        if action not in ('next-hop', 'exit-if', 'drop'):
+            print("Action must be {}".format(('next-hop', 'exit-if', 'drop')))
+            return
+        if action == 'next-hop':
+            action_n = repository.PolicyRoute.ACTION_NEXT_HOP_IP
+        elif action == 'exit-if':
+            action_n = repository.PolicyRoute.ACTION_EXIT_IF
+        else:
+            action_n = repository.PolicyRoute.ACTION_DROP
 
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print(args)
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print("@@@@@@@@@@@@@@@@")
-    #     print("@@@@@@@@@@@@@@@@")
 
-    #     try:
-    #         data = args[3]
-    #     except (ValueError, IndexError, KeyError):
-    #         data = ""
+        try:
+            data = args[3]
+        except (ValueError, IndexError, KeyError):
+            data = ""
 
-    #     actions = self.new_flow['actions']
-    #     for action in actions:
-    #         if action['device_id'] == device['_id']:
-    #             action['action'] = action_n
-    #             action['data'] = data
-    #             return
+        actions = self.new_flow['actions']
+        for action in actions:
+            if action['device_id'] == device['_id']:
+                action['action'] = action_n
+                action['data'] = data
+                return
 
-    #     actions.append({
-    #         'device_id': device['_id'],
-    #         'action': action_n,
-    #         'data': data
-    #     })
-    #     print(self.new_flow)
+        actions.append({
+            'device_id': device['_id'],
+            'action': action_n,
+            'data': data
+        })
+        print(self.new_flow)
 
     def do_no(self, args):
         try:
@@ -285,40 +277,40 @@ class FlowCommand(SDNCommand):
         self.flow_routing_repository.add_or_update_flow_routing(self.flow)
         print("Apply flow to queue success.")
 
-    def do_detail(self, args):
-        print('================== Flow name: {} =================='.format(self.name))
-        print("MATCH: ", end='')
-        src_ip = netaddr.IPNetwork(self.new_flow['src_ip'] + "/" + self.new_flow['src_wildcard'])
-        print("SRC {host}/{prefix} {port}".format(
-            host=str(src_ip.ip),
-            prefix=str(src_ip.prefixlen),
-            port=self.new_flow['src_port']
-        ))
-        dst_ip = netaddr.IPNetwork(self.new_flow['dst_ip'] + "/" + self.new_flow['dst_wildcard'])
-        print("       DST {host}/{prefix} {port}".format(
-            host=str(dst_ip.ip),
-            prefix=str(dst_ip.prefixlen),
-            port=self.new_flow['src_port']
-        ))
+    # def do_detail(self, args):
+    #     print('================== Flow name: {} =================='.format(self.name))
+    #     print("MATCH: ", end='')
+    #     src_ip = netaddr.IPNetwork(self.new_flow['src_ip'] + "/" + self.new_flow['src_wildcard'])
+    #     print("SRC {host}/{prefix} {port}".format(
+    #         host=str(src_ip.ip),
+    #         prefix=str(src_ip.prefixlen),
+    #         port=self.new_flow['src_port']
+    #     ))
+    #     dst_ip = netaddr.IPNetwork(self.new_flow['dst_ip'] + "/" + self.new_flow['dst_wildcard'])
+    #     print("       DST {host}/{prefix} {port}".format(
+    #         host=str(dst_ip.ip),
+    #         prefix=str(dst_ip.prefixlen),
+    #         port=self.new_flow['src_port']
+    #     ))
 
-        print("Actions")
-        i = 1
-        for action in self.new_flow['actions']:
-            device = self.device_repository.get_device_by_id(action['device_id'])
-            action_text = 'None'
-            if action['action'] == repository.PolicyRoute.ACTION_DROP:
-                action_text = 'drop'
-            elif action['action'] == repository.PolicyRoute.ACTION_NEXT_HOP_IP:
-                action_text = 'next-hop'
-            elif action['action'] == repository.PolicyRoute.ACTION_EXIT_IF:
-                action_text = 'exit-if'
+    #     print("Actions")
+    #     i = 1
+    #     for action in self.new_flow['actions']:
+    #         device = self.device_repository.get_device_by_id(action['device_id'])
+    #         action_text = 'None'
+    #         if action['action'] == repository.PolicyRoute.ACTION_DROP:
+    #             action_text = 'drop'
+    #         elif action['action'] == repository.PolicyRoute.ACTION_NEXT_HOP_IP:
+    #             action_text = 'next-hop'
+    #         elif action['action'] == repository.PolicyRoute.ACTION_EXIT_IF:
+    #             action_text = 'exit-if'
 
-            print("Device: {device_ip:22} -> {action:10} {data}".format(
-                device_ip=device['management_ip'],
-                action=action_text,
-                data=action['data']
-            ))
-            i += 1
+    #         print("Device: {device_ip:22} -> {action:10} {data}".format(
+    #             device_ip=device['management_ip'],
+    #             action=action_text,
+    #             data=action['data']
+    #         ))
+    #         i += 1
 
 
 class ConfigCommand(SDNCommand):
