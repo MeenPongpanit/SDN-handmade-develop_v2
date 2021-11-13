@@ -180,6 +180,12 @@ class PolicyMonitorTask:
 
         flow_actions = new_flow['actions']
 
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print(flow_actions)
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
+
         device_list = {}
         for action in flow_actions:
             # logging.info(pprint.pformat("Node ID: {}".format(action['management_ip'])))
