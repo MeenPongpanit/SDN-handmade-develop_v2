@@ -23,3 +23,8 @@ class GraphView(HTTPMethodView):
         return json({"graph": graph, "status": "ok"})
 
 
+        # edge_flow : {
+        #     edge0 : [{src_ip:, dst_ip:, src_port:, dst_port:}, {}, {}, {}], 
+        #     edge1 : []
+        # }
+

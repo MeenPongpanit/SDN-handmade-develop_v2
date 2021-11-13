@@ -64,7 +64,6 @@ def cal_bw_usage_percent(octets, if_speed, in_time):
     in_time = in_time
     return ((octets * 8 * 100) / (in_time * if_speed)) * 100
 
-
 def bandwidth_usage_percent_to_bit(speed, percent):
     return percent / 100 * speed
 
