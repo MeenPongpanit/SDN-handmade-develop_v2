@@ -178,13 +178,11 @@ class PolicyMonitorTask:
         if not flow_name:
             flow_name = new_flow.get('name')
 
-        flow_actions = new_flow['actions']
-
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
-        print(flow_actions)
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@")
+        flow_actions = new_flow['actions'] #from database 
+        """
+        flow_actions -- format
+        [{device_id : device_oid, action : 123->forward int/ip/drop, data : next-hop-ip, interface:[]}, {}, {}]
+        """
 
         device_list = {}
         for action in flow_actions:
@@ -198,6 +196,11 @@ class PolicyMonitorTask:
             cmd = generate_config_command(device['type'], new_flow, flow_id, flow_name, action)
             # Policy cmd + action cmd
             # device_list[action['management_ip']] = ["\n".join(policy_cmd + action_cmd)]
+            print("@@@@@@@@@@@@@@@@@@@@@@")
+            print("@@@@@@@@@@@@@@@@@@@@@@")
+            print(cmd)
+            print("@@@@@@@@@@@@@@@@@@@@@@")
+            print("@@@@@@@@@@@@@@@@@@@@@@")
             device_list[device["management_ip"]] = cmd
 
         # Remove old action

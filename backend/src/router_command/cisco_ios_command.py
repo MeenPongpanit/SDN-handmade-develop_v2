@@ -126,6 +126,7 @@ def generate_action_command(policy_id, policy_name, action):
     """
     Using route-map
     :return:
+    IN progress: apply to interface
     """
     # flow_id = flow.get('flow_id')
     # Clear old action
