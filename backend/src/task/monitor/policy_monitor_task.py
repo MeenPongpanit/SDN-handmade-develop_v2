@@ -225,6 +225,11 @@ class PolicyMonitorTask:
             logging.info("Some device can't SSH")
             return
         logging.info("Update...")
+        print("$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$")
+        print(device_list)
+        print("$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$")
         ssh_connection.send_config_set(device_list)
 
         new_flow['flow_id'] = flow_id
