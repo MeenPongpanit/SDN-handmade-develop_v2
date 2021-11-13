@@ -15,6 +15,7 @@ class FlowRoutingView(HTTPMethodView):
         return json({"flows": flows, "status": "ok"}, dumps=dumps)
 
     def post(self, request):
+        """post method for flow/routing api update device config? into database"""
         try:
             actions = []
             for action in request.json['actions']:
