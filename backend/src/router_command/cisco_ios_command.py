@@ -10,6 +10,11 @@ def generate_cmd(flow, flow_id, flow_name, action):
     action = generate_action_command(flow_id, flow_name, action)
     return policy + action
 
+# def generate_appy_interface_command(action):
+#     apply_int = []
+#     return apply_int
+
+
 
 def _generate_match(ip, wildcard, port):
     # ACL match

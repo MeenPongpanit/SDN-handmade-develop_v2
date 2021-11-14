@@ -101,8 +101,14 @@ def get_path(src_net, dst_mgmtip, nexthop_node=None):
 
 #print(get_device_id_from_network("100.1.2.0"))
 #print(get_device_ip_from_device_id(get_device_id_from_network("100.1.1.0")))
+#get_path("192.168.8.0", "192.168.1.2", "192.168.7.49") # A1->B
 
-get_path("192.168.8.0", "192.168.1.2", "192.168.7.49") # A1->B
+
+
+get_path("192.168.8.0", "192.168.3.1", "192.168.7.49") # A1->B
+
+
+
 # get_path("100.1.2.0", "100.1.3.1", "100.1.7.1") # A2->B
 
 # graph = requests.get("http://10.50.34.37:5001/api/v1/graph").json()
