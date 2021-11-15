@@ -64,10 +64,12 @@ def find_nexthop_node(src_mgmtip, dst_mgmtip):
 #     print(interface)
 #     return str(interface)
 
-def change_route(path, src_net, src_mgmtip, dst_mgmtip):
-    src_mask = get_wildcard(get_mask(src_mgmtip))
-    dst_mask = get_wildcard(get_mask(dst_mgmtip))
-    new_flow = {'name':'new_route', 'src_ip':src_net, 'src_port':'any', 'src_subnet':src_mask, 'dst_ip':dst_mgmtip, 'dst_port':'any', 'dst_subnet':dst_mask, 'actions':[]}
+def change_route(path, src_net, src_mgmtip, dst_mgmtip, dst_net):
+    # src_mask = get_wildcard(get_mask(src_net))
+    # dst_mask = get_wildcard(get_mask(dst_net))
+    src_mask = '0.0.0.255'
+    dst_mask = '0.0.0.255'
+    new_flow = {'name':'new_route', 'src_ip':src_net, 'src_port':'any', 'src_subnet':src_mask, 'dst_ip':dst_net, 'dst_port':'any', 'dst_subnet':dst_mask, 'actions':[]}
     for i in range(len(path)-1):
         device = requests.get("http://{}:5001/api/v1/device/mgmtip/{}".format(
             ip,
@@ -89,13 +91,16 @@ def my_path(paths):
             return False
     return True
 
-def get_path(src_net, dst_mgmtip, nexthop_node=None):
+def get_path(src_net, dst_net, nexthop_node=None):
     src_mgmtip = get_device_ip_from_device_id(get_device_id_from_network(src_net))
+    dst_mgmtip = get_device_ip_from_device_id(get_device_id_from_network(dst_net))
+
+
     paths = requests.get("http://"+ip+":5001/api/v1/path/"+src_mgmtip+","+dst_mgmtip).json()
     if nexthop_node is None:
         nexthop_node = find_nexthop_node(src_mgmtip, dst_mgmtip)
     for path in paths['paths']:
-        change_route(path['path'], src_net, src_mgmtip, dst_mgmtip)
+        change_route(path['path'], src_net, src_mgmtip, dst_mgmtip, dst_net)
         break
 
 
@@ -105,7 +110,7 @@ def get_path(src_net, dst_mgmtip, nexthop_node=None):
 
 
 
-get_path("192.168.8.0", "192.168.3.1", "192.168.7.49") # A1->B
+get_path("192.168.8.0", "192.168.10.0", "192.168.7.49") # A1->B
 
 
 
