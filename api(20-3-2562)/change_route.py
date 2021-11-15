@@ -6,10 +6,10 @@ from requests.api import get
 
 controller_ip = "10.50.34.37"
 
-def call_change_route_api(src_net, dst_net):
+def call_change_route_api():
     """prepare all agrs need for change route and call it's API"""
     src_net, dst_net = '192.168.8.0', '192.168.10.0'
-    src_port, dst_port = 'any', 'any'
+    src_port, dst_port = '5555', '4444'
     path = get_path(src_net, dst_net)
     change_route(path, src_net, dst_net, src_port, dst_port)
 
