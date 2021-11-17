@@ -99,11 +99,14 @@ class FlowRoutingView(HTTPMethodView):
         request.app.db['flow_routing'].add_or_update_flow_routing(flow)
         return json({'success': True})
 
-    # def delete(self, request):
-    #     flow_id = request.args.get('flow_id')
-    #     if not flow_id or not flow_id.isdigit():
-    #         return json({'status': False, 'message': 'Flow id not exist'})
+    def delete(self, request):
+        print("9999999999999999999999999999")
+        print("9999999999999999999999999999")
+        print("9999999999999999999999999999")
+        flow_id = request.args.get('flow_id')
+        if not flow_id or not flow_id.isdigit():
+            return json({'status': False, 'message': 'Flow id not exist'})
 
-    #     flow_id = int(flow_id)
-    #     request.app.db['flow_routing'].set_status_wait_remove(flow_id)
-    #     return json({'status': True, 'message': 'Removed flow routing'}, status=204)
+        flow_id = int(flow_id)
+        request.app.db['flow_routing'].set_status_wait_remove(flow_id)
+        return json({'status': True, 'message': 'Removed flow routing'}, status=204)
