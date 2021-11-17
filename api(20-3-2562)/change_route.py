@@ -9,7 +9,7 @@ controller_ip = "10.50.34.37"
 def call_change_route_api():
     """prepare all agrs need for change route and call it's API"""
     src_net, dst_net = '192.168.8.0', '192.168.10.0'
-    src_port, dst_port = '5555', '4444'
+    src_port, dst_port = 'any', '5555'
     path = get_path(src_net, dst_net)
     change_route(path, src_net, dst_net, src_port, dst_port)
 
@@ -63,9 +63,9 @@ def change_route(path, src_net, dst_net, src_port=None, dst_port=None):
         print(interface)
         action = {'device_id':device_id, 'action':2, 'interface':interface, 'data':next_hop_ip}
         new_flow['actions'].append(action)
-        
+
     response = requests.post("http://"+controller_ip+":5001/api/v1/flow/routing", json=new_flow)
-    # print("change route success")
+    print("change route success")
 
 def get_mask(ip):
     """return subnetmask from ip"""
@@ -100,4 +100,12 @@ def get_all_inteface(device):
             interface.append(i['description'])
     return interface
 
-call_change_route_api()
+# call_change_route_api()
+
+def call_delete():
+    """test delete"""
+    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing")
+    print(response)
+call_delete()
+
+

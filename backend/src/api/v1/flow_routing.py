@@ -100,6 +100,9 @@ class FlowRoutingView(HTTPMethodView):
         return json({'success': True})
 
     def delete(self, request):
+        print("9999999999999999999999999999")
+        print("9999999999999999999999999999")
+        print("9999999999999999999999999999")
         flow_id = request.args.get('flow_id')
         if not flow_id or not flow_id.isdigit():
             return json({'status': False, 'message': 'Flow id not exist'})
