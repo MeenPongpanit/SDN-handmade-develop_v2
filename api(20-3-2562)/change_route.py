@@ -104,7 +104,7 @@ def get_all_inteface(device):
 
 def call_delete():
     """test delete"""
-    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing", json={'flow_id' : 1})
+    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing",  json={'flow_id' : ['1']})
     print(response)
 call_delete()
 
