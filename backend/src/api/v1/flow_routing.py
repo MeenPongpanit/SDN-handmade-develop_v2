@@ -102,7 +102,7 @@ class FlowRoutingView(HTTPMethodView):
     def delete(self, request):
         print("9999999999999999999999999999")
         print("9999999999999999999999999999")
-        print(request.__dict__())
+        print(request)
         flow_id = request.args.get('flow_id')
         print(flow_id)
         if not flow_id or not flow_id.isdigit():
