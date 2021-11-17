@@ -1,6 +1,7 @@
 """This file is for calling change route api"""
 import requests
 import ipaddress
+from bson.json_util import dumps
 
 from requests.api import get
 
@@ -104,7 +105,8 @@ def get_all_inteface(device):
 
 def call_delete():
     """test delete"""
-    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing",  json={'flow_id' : ['1']})
+    payload = {'flow_id':1}
+    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing",  data=payload)
     print(response)
 call_delete()
 
