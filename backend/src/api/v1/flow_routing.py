@@ -98,7 +98,7 @@ class FlowRoutingView(HTTPMethodView):
         request.app.db['flow_routing'].add_or_update_flow_routing(flow)
         return json({'success': True})
 
-    def delete(self, request):f
+    def delete(self, request):
         flow_id = request.args.get('flow_id')
         if not flow_id or not flow_id.isdigit():
             return json({'status': False, 'message': 'Flow id not exist'})
