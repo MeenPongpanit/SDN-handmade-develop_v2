@@ -15,6 +15,7 @@ from worker.netflow.netflow_worker import NetflowWorker
 from worker.ssh.ssh_worker import SSHWorker
 
 
+
 class Topology:
     """ Topology class
     """

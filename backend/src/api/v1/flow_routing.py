@@ -23,8 +23,7 @@ class FlowRoutingView(HTTPMethodView):
                     'device_id': action['device_id'],
                     # 'management_ip': action['management_ip'],
                     'action': int(action['action']),
-                    'data': action['data'],
-                    'interface': action['interface']
+                    'data': action['data']
                 })
 
             policy = {
@@ -99,11 +98,8 @@ class FlowRoutingView(HTTPMethodView):
         request.app.db['flow_routing'].add_or_update_flow_routing(flow)
         return json({'success': True})
 
-    def delete(self, request):
-        print("9999999999999999999999999999")
-        print("9999999999999999999999999999")
+    def delete(self, request):f
         flow_id = request.args.get('flow_id')
-        print(flow_id)
         if not flow_id or not flow_id.isdigit():
             return json({'status': False, 'message': 'Flow id not exist'})
 

@@ -17,6 +17,7 @@ class PolicyMonitorTask:
         self.used_flow_id_repository = get('used_flow_id')
         self.snmp_fetch = SNMPFetch()
 
+
     @staticmethod
     def diff(currently_policy: Dict[str, any], new_policy: Dict[str, any]) -> Dict[str, any]:
         if currently_policy['src_ip'] != new_policy['src_ip'] or \

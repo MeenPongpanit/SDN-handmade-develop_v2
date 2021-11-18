@@ -1,18 +1,23 @@
 """This file is for calling change route api"""
 import requests
-import ipaddress
-from bson.json_util import dumps
 
-from requests.api import get
 
+from threading import Thread 
+
+import time
+
+
+start = time.perf_counter()
 controller_ip = "10.50.34.37"
+
 
 def call_change_route_api():
     """prepare all agrs need for change route and call it's API"""
     src_net, dst_net = '192.168.8.0', '192.168.10.0'
-    src_port, dst_port = 'any', '5555'
+    src_port, dst_port = 'any', 'any'
     path = get_path(src_net, dst_net)
-    change_route(path, src_net, dst_net, src_port, dst_port)
+    print("A")
+    # change_route(path, src_net, dst_net, src_port, dst_port)
 
 def get_path(src_net, dst_net):
     """get all possible path from src_network to dst_network"""
@@ -101,13 +106,39 @@ def get_all_inteface(device):
             interface.append(i['description'])
     return interface
 
-# call_change_route_api()
-
 def call_delete():
     """test delete"""
-    payload = {'flow_id':1}
-    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing",  data=payload)
+    payload = {'flow_id':'1'}
+    response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing",  params=payload)
     print(response)
-call_delete()
 
+# call_delete()
+# call_change_route_api()
+
+class MyThread(Thread):
+
+    def __init__(self, policy_number):
+        Thread.__init__(self)
+        self.policy_number = policy_number
+
+    def run(self):
+        time.sleep(self.policy_number)
+        print(self.policy_number)
+        
+
+t1 = MyThread(4)
+t2 = MyThread(2)
+t1.start()
+
+t2.start()
+
+t1.join()
+t2.join()
+
+
+
+print("B")
+
+finish = time.perf_counter()
+print(f'finish in {round(finish - start, 2)} seconds' )
 
