@@ -206,7 +206,7 @@ class SSHWorker:
             time.sleep(1)
 
     def start(self):
-        self.pool = ThreadPoolExecutor(1)
+        self.pool = ThreadPoolExecutor(2)
         # Start control worker queue
         self.pool.submit(self._control_worker_queue, self.results_q, self.stop_control_q)
         self.pool.submit(self.test)
