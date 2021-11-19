@@ -201,9 +201,10 @@ class SSHWorker:
                 break
 
     def test():
-        for i in range(10):
-            print("HUEHUEUEHEUE --- ", i)
-            time.sleep(1)
+        while True:
+            for i in range(10):
+                logging.info("YUKARI's Here ", i)
+                time.sleep(1)
 
     def start(self):
         self.pool = ThreadPoolExecutor(2)
