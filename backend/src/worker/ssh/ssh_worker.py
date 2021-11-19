@@ -200,10 +200,16 @@ class SSHWorker:
             except Empty:
                 break
 
+    def test():
+        for i in range(10):
+            print("HUEHUEUEHEUE --- ", i)
+            time.sleep(1)
+
     def start(self):
         self.pool = ThreadPoolExecutor(1)
         # Start control worker queue
         self.pool.submit(self._control_worker_queue, self.results_q, self.stop_control_q)
+        self.pool.submit(self.test)
         time.sleep(10)
         # Todo initial task
 
