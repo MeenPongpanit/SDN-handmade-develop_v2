@@ -117,6 +117,10 @@ class SSHWorker:
             except Empty:
                 pass
 
+            for i in range(10):
+                logging.info("YUKARI's Here $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$", i)
+
+
             devices = self.device_repository.get_all()
             for device in devices:
                 # If device exists in list, skip
@@ -200,17 +204,10 @@ class SSHWorker:
             except Empty:
                 break
 
-    def test():
-        while True:
-            for i in range(10):
-                logging.info("YUKARI's Here ", i)
-                time.sleep(1)
-
     def start(self):
-        self.pool = ThreadPoolExecutor(2)
+        self.pool = ThreadPoolExecutor(1)
         # Start control worker queue
         self.pool.submit(self._control_worker_queue, self.results_q, self.stop_control_q)
-        self.pool.submit(self.test)
         time.sleep(10)
         # Todo initial task
 
