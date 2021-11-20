@@ -10,7 +10,9 @@ class TimerPolicyWorker:
     def run(self):
         running_policy = []
         while True:
+            for obj in self.flow:
+                running_policy.append(obj)
             print("############################")
-            print(self.flow)
+            print(running_policy)
             print("############################")
             time.sleep(1)
