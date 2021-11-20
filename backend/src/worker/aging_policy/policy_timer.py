@@ -4,7 +4,6 @@ from threading import Thread
 import time
 
 class MyThread(Thread):
-
     def __init__(self, timeout):
         Thread.__init__(self)
         self.timeout = timeout
