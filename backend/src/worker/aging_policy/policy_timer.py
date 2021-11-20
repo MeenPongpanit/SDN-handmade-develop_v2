@@ -1,4 +1,5 @@
 import time
+import logging
 
 class TimerPolicyWorker:
     def __init__(self, policy_number):
@@ -6,7 +7,5 @@ class TimerPolicyWorker:
 
     def run(self):
         while True:
-            print("------------------------------------")
-            print(self.policy_number)
-            print("------------------------------------")
+            logging.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             time.sleep(1)

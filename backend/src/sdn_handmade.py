@@ -42,7 +42,7 @@ class Topology:
             ClearDeviceTask
         )
 
-        self._policy_worker = TimerPolicyWorker(4)
+        self.policy_worker = TimerPolicyWorker(4)
 
 
         # Thread for SSH Worker
@@ -79,7 +79,7 @@ class Topology:
         self.app_repository.set_running(True)
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
-        self._policy_worker = threading.Thread(target=self._policy_worker.start)
+        self._policy_worker = threading.Thread(target=self.policy_worker)
         self._policy_worker.name = 'PolicyTimer-Worker'
         self._policy_worker.start()
 
