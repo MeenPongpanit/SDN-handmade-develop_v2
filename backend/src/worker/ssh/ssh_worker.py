@@ -117,9 +117,6 @@ class SSHWorker:
             except Empty:
                 pass
 
-            for i in range(10):
-                logging.info("YUKARI's Here $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$", i)
-
 
             devices = self.device_repository.get_all()
             for device in devices:

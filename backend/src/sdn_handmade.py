@@ -13,7 +13,7 @@ from task.monitor.traffic_monitor_task import TrafficMonitorTask
 from task.snmp_fetch import SNMPFetch
 from worker.netflow.netflow_worker import NetflowWorker
 from worker.ssh.ssh_worker import SSHWorker
-
+from worker.aging_policy.policy_timer import TimerPolicyWorker
 
 
 class Topology:
@@ -41,6 +41,9 @@ class Topology:
             PolicyMonitorTask,
             ClearDeviceTask
         )
+
+        self._policy_worker = TimerPolicyWorker(4)
+
 
         # Thread for SSH Worker
         self._ssh_worker_t = None
@@ -74,6 +77,8 @@ class Topology:
         self._ssh_worker_t.name = "SSH-WORKER"
         self._ssh_worker_t.start()
         self.app_repository.set_running(True)
+        self._policy_worker = threading.Thread(target=self._policy_worker.start)
+        self._policy_worker.start()
 
     def shutdown(self):
         """ Shutdown topology
