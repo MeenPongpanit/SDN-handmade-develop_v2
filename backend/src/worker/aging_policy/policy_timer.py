@@ -28,19 +28,21 @@ class TimerPolicyWorker:
             return flow_id
         
         while True:
-            self.flow = self.client.sdn01.flow_routing.find()   
+            self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
                 print(obj)
-                if obj['flow_id'] not in self.running_policy:
-                    self.running_policy.append(obj['flow_id'])
-       
-                    with concurrent.futures.ThreadPoolExecutor() as executor:
-                        future = executor.submit(delete, obj['flow_id'], self.timeout)
-                        return_value = future.result()
-                        print("########################")
-                        print(return_value)
-                        self.running_policy.remove(return_value)
+                try:
+                    if obj['flow_id'] not in self.running_policy:
+                        self.running_policy.append(obj['flow_id'])
+        
+                        with concurrent.futures.ThreadPoolExecutor() as executor:
+                            future = executor.submit(delete, obj['flow_id'], self.timeout)
+                            return_value = future.result()
+                            print("########################")
+                            print(return_value)
+                            self.running_policy.remove(return_value)
+                except:
+                    print("updating flow in process")
             print(self.running_policy)
-
             time.sleep(1)
     
