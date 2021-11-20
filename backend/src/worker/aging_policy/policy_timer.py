@@ -9,7 +9,7 @@ class MyThread(Thread):
         self.timeout = timeout
 
     def run(self):
-        time.sleep(self.policy_number)
+        time.sleep(self.timeout)
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
         print("NOW DELETE THIS")
@@ -28,7 +28,7 @@ class TimerPolicyWorker:
             for obj in self.flow:
                 if obj['_id'] not in self.running_policy:
                     self.running_policy.append(obj['_id'])
-                    timeout = 4
+                    timeout = 10
                     tread_obj = MyThread(timeout)
                     tread_obj.start()
             print("############################")
