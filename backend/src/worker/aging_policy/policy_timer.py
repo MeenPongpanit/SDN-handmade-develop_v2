@@ -28,7 +28,7 @@ class TimerPolicyWorker:
             for obj in self.flow:
                 if obj['_id'] not in self.running_policy:
                     self.running_policy.append(obj['_id'])
-                    timeout = 10
+                    timeout = 4
                     tread_obj = MyThread(timeout)
                     tread_obj.start()
             print("############################")
