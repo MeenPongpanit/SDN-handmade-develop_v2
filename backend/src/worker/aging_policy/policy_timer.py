@@ -4,17 +4,10 @@ import requests
 from threading import Thread 
 import time
 
-class MyThread(Thread):
-    def __init__(self, flow_id, timeout):
-        Thread.__init__(self)
-        self.flow_id = str(flow_id)
-        self.timeout = timeout
-        self.controller_ip = '10.50.34.37'
+import concurrent.futures
 
-    def run(self):
-        time.sleep(self.timeout)
-        payload = {'flow_id': self.flow_id}
-        response = requests.delete("http://"+self.controller_ip+":5001/api/v1/flow/routing",  params=payload)
+
+    
 
 class TimerPolicyWorker:
     def __init__(self, policy_number):
@@ -24,15 +17,29 @@ class TimerPolicyWorker:
         self.running_policy = []
 
     def run(self):
+
+        def delete(self):
+            time.sleep(self.timeout)
+            #if condition last switch too long
+            payload = {'flow_id': self.flow_id}
+            print("@@@@@@@@@@@@@@")
+            print("Policy %d NOW REMOVE" %(self.flow_id))
+            print("@@@@@@@@@@@@@@")
+            # response = requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            return self.flow_id
+        
         while True:
             for obj in self.flow:
                 if obj['flow_id'] not in self.running_policy:
                     self.running_policy.append(obj['flow_id'])
-                    timeout = 10
-                    tread_obj = MyThread(obj['flow_id'], timeout)
-                    tread_obj.start()
-            print("############################")
-            print(self.running_policy)
-            print("############################")
+                    timeout = 3
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future = executor.submit(delete, self)
+                        return_value = future.result()
+                        print("########################")
+                        print(return_value)
+                    # tread_obj = MyThread(obj['flow_id'], timeout)
+                    # #self.running_policy.remove(obj['flow_id'])
+                    # tread_obj.start()
             time.sleep(1)
     
