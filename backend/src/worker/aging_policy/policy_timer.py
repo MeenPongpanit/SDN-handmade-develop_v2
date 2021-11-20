@@ -27,7 +27,7 @@ class TimerPolicyWorker:
             print("Policy %d NOW REMOVE" %(flow_id))
             print("@@@@@@@@@@@@@@")
             # response = requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
-            return self.flow_id
+            return flow_id
         
         while True:
             for obj in self.flow:
