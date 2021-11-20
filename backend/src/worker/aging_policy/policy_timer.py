@@ -11,6 +11,9 @@ class TimerPolicyWorker:
     def run(self):
         
         while True:
+            for obj in self.flow:
+                if obj['_id'] not in self.running_policy:
+                    self.running_policy.append(obj['_id'])
             print("############################")
             print(self.running_policy)
             print("############################")
