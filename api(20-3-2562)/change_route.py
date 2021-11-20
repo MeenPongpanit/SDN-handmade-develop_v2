@@ -13,7 +13,7 @@ def call_change_route_api():
     src_port, dst_port = 'any', 'any'
     path = get_path(src_net, dst_net)
     print("A")
-    # change_route(path, src_net, dst_net, src_port, dst_port)
+    change_route(path, src_net, dst_net, src_port, dst_port)
 
 def get_path(src_net, dst_net):
     """get all possible path from src_network to dst_network"""

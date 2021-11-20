@@ -11,7 +11,7 @@ class TimerPolicyWorker:
     def __init__(self, policy_number):
         self.policy_number = policy_number
         self.client = MongoClient('localhost', 27017)
-        self.flow = self.client.sdn01.flow_routing.find()
+        
         self.timeout = 3
         self.running_policy = []
 
@@ -28,6 +28,7 @@ class TimerPolicyWorker:
             return flow_id
         
         while True:
+            self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
                 if obj['flow_id'] not in self.running_policy:
                     self.running_policy.append(obj['flow_id'])
