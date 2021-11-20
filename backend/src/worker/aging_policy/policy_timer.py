@@ -30,6 +30,7 @@ class TimerPolicyWorker:
                     self.running_policy.append(obj['_id'])
                     timeout = 10
                     tread_obj = MyThread(timeout)
+                    tread_obj.start()
             print("############################")
             print(self.running_policy)
             print("############################")
