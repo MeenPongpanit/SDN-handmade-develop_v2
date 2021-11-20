@@ -77,6 +77,7 @@ class Topology:
         self._ssh_worker_t.name = "SSH-WORKER"
         self._ssh_worker_t.start()
         self.app_repository.set_running(True)
+        self._policy_worker.name = 'PolicyTimer-Worker'
         self._policy_worker = threading.Thread(target=self._policy_worker.start)
         self._policy_worker.start()
 
