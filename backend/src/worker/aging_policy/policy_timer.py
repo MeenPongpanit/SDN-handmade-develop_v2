@@ -14,16 +14,17 @@ class TimerPolicyWorker:
         self.policy_number = policy_number
         self.client = MongoClient('localhost', 27017)
         self.flow = self.client.sdn01.flow_routing.find()
+        self.timeout = 3
         self.running_policy = []
 
     def run(self):
 
-        def delete(self):
-            time.sleep(self.timeout)
+        def delete(flow_id, timeout):
+            time.sleep(timeout)
             #if condition last switch too long
-            payload = {'flow_id': self.flow_id}
+            payload = {'flow_id': flow_id}
             print("@@@@@@@@@@@@@@")
-            print("Policy %d NOW REMOVE" %(self.flow_id))
+            print("Policy %d NOW REMOVE" %(flow_id))
             print("@@@@@@@@@@@@@@")
             # response = requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
             return self.flow_id
@@ -32,9 +33,9 @@ class TimerPolicyWorker:
             for obj in self.flow:
                 if obj['flow_id'] not in self.running_policy:
                     self.running_policy.append(obj['flow_id'])
-                    timeout = 3
+                    
                     with concurrent.futures.ThreadPoolExecutor() as executor:
-                        future = executor.submit(delete, self)
+                        future = executor.submit(delete, obj['flow_id'], self.timeout)
                         return_value = future.result()
                         print("########################")
                         print(return_value)
