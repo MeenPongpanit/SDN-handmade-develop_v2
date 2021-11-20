@@ -9,4 +9,4 @@ class TimerPolicyWorker:
             print("------------------------------------")
             print(self.policy_number)
             print("------------------------------------")
-            time.sllep(3)
+            time.sleep(1)
