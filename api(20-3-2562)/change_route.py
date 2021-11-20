@@ -1,9 +1,5 @@
 """This file is for calling change route api"""
 import requests
-
-
-from threading import Thread 
-
 import time
 
 
@@ -113,32 +109,6 @@ def call_delete():
     print(response)
 
 # call_delete()
-# call_change_route_api()
+call_change_route_api()
 
-class MyThread(Thread):
-
-    def __init__(self, policy_number):
-        Thread.__init__(self)
-        self.policy_number = policy_number
-
-    def run(self):
-        time.sleep(self.policy_number)
-        print(self.policy_number)
-        
-
-t1 = MyThread(4)
-t2 = MyThread(2)
-t1.start()
-
-t2.start()
-
-t1.join()
-t2.join()
-
-
-
-print("B")
-
-finish = time.perf_counter()
-print(f'finish in {round(finish - start, 2)} seconds' )
 

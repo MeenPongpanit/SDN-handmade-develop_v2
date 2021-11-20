@@ -1,9 +1,7 @@
 import time
 from pymongo import MongoClient
 import requests
-from threading import Thread 
 import time
-
 import concurrent.futures
 
 
@@ -40,7 +38,7 @@ class TimerPolicyWorker:
                         print("########################")
                         print(return_value)
                         self.running_policy.remove(return_value)
-                print(self.running_policy)
+            print(self.running_policy)
 
             time.sleep(1)
     
