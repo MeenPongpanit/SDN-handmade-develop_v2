@@ -26,7 +26,7 @@ class TimerPolicyWorker:
             print("@@@@@@@@@@@@@@")
             print("Policy %d NOW REMOVE" %(flow_id))
             print("@@@@@@@@@@@@@@")
-            # response = requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            response = requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
             return flow_id
         
         while True:
@@ -39,8 +39,8 @@ class TimerPolicyWorker:
                         return_value = future.result()
                         print("########################")
                         print(return_value)
-                    # tread_obj = MyThread(obj['flow_id'], timeout)
-                    # #self.running_policy.remove(obj['flow_id'])
-                    # tread_obj.start()
+                        self.running_policy.remove(return_value)
+                print(self.running_policy)
+
             time.sleep(1)
     
