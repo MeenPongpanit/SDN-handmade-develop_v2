@@ -15,6 +15,16 @@ from worker.netflow.netflow_worker import NetflowWorker
 from worker.ssh.ssh_worker import SSHWorker
 from worker.aging_policy.policy_timer import TimerPolicyWorker
 
+class MyThread(Thread):
+
+    def __init__(self, policy_number):
+        Thread.__init__(self)
+        self.policy_number = policy_number
+
+    def run(self):
+        time.sleep(self.policy_number)
+        print(self.policy_number)
+
 
 class Topology:
     """ Topology class

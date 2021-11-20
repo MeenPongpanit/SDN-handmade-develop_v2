@@ -1,5 +1,21 @@
 import time
 from pymongo import MongoClient
+from threading import Thread 
+import time
+
+class MyThread(Thread):
+
+    def __init__(self, timeout):
+        Thread.__init__(self)
+        self.timeout = timeout
+
+    def run(self):
+        time.sleep(self.policy_number)
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("NOW DELETE THIS")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
 class TimerPolicyWorker:
     def __init__(self, policy_number):
@@ -9,11 +25,12 @@ class TimerPolicyWorker:
         self.running_policy = []
 
     def run(self):
-        
         while True:
             for obj in self.flow:
                 if obj['_id'] not in self.running_policy:
-                    self.running_policy.append({'obg_id':obj['_id'], 'time':20})
+                    self.running_policy.append(obj['_id'])
+                    timeout = 10
+                    tread_obj = MyThread(timeout)
             print("############################")
             print(self.running_policy)
             print("############################")
