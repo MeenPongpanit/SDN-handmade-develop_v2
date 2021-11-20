@@ -7,8 +7,7 @@ import concurrent.futures
 class TimerPolicyWorker:
     def __init__(self, policy_number):
         self.policy_number = policy_number
-        self.client = MongoClient('localhost', 27017)
-        
+        self.client = MongoClient('localhost', 27017)   
         self.timeout = 3
         self.running_policy = []
 
@@ -36,5 +35,5 @@ class TimerPolicyWorker:
                 except:
                     print("updating flow in process")
             print(self.running_policy)
-            time.sleep(2)
+            time.sleep(5)
     
