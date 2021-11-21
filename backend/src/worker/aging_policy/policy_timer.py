@@ -8,7 +8,7 @@ class TimerPolicyWorker:
     def __init__(self, policy_number):
         self.policy_number = policy_number
         self.client = MongoClient('localhost', 27017)   
-        self.timeout = 3
+        self.timeout = 60
         self.running_policy = []
 
     def run(self):
