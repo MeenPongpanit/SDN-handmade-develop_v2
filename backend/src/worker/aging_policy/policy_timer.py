@@ -22,7 +22,7 @@ class TimerPolicyWorker:
 
         while True:
             print(self.obj_id)
-            time.sleep(2)
+            time.sleep(1)
 
     
         
