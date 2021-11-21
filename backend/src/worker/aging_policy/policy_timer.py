@@ -17,8 +17,10 @@ class TimerPolicyWorker:
             time.sleep(timeout)
             #if condition last switch too long
             payload = {'flow_id': flow_id}
-            requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
             return flow_id
+        
+        # def check_active():
         
         while True:
             self.flow = self.client.sdn01.flow_routing.find()
@@ -35,5 +37,5 @@ class TimerPolicyWorker:
                 except:
                     print("updating flow in process")
             print(self.running_policy)
-            time.sleep(5)
+            time.sleep(8)
     
