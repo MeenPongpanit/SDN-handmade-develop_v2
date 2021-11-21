@@ -27,8 +27,7 @@ class FlowRoutingView(HTTPMethodView):
                     'data': action['data']
                 })
 
-            t1 = TimerPolicyWorker(4)
-            t1.run()
+            
 
             policy = {
                 # 'policy_id': policy_id,
@@ -56,6 +55,10 @@ class FlowRoutingView(HTTPMethodView):
 
         policy_repo = request.app.db['flow_routing']
         policy_repo.add_or_update_flow_routing(policy)
+
+        obj_id = policy['new_flow']
+        t1 = TimerPolicyWorker(obj_id)
+        t1.run()
         
         print("=================")
         print("=================")
