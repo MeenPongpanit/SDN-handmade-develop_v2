@@ -17,7 +17,7 @@ class TimerPolicyWorker:
             time.sleep(timeout)
             #if condition last switch too long
             payload = {'flow_id': flow_id}
-            # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
             return flow_id
         
         # def check_active():
@@ -30,6 +30,9 @@ class TimerPolicyWorker:
                         self.running_policy.append(obj['flow_id'])
         
                         with concurrent.futures.ThreadPoolExecutor() as executor:
+                            print("============")
+                            obj['flow_id']
+                            print("============")
                             future = executor.submit(delete, obj['flow_id'], self.timeout)
                             flow_id = future.result()
                             print("Flow is Remove due to timeout")
