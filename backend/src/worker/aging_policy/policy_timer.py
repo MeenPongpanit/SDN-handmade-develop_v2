@@ -8,7 +8,7 @@ class TimerPolicyWorker:
     def __init__(self, policy_number):
         self.policy_number = policy_number
         self.client = MongoClient('localhost', 27017)   
-        self.timeout = 60
+        self.timeout = 30
         self.running_policy = []
 
     def run(self):
@@ -17,7 +17,7 @@ class TimerPolicyWorker:
             time.sleep(timeout)
             #if condition last switch too long
             payload = {'flow_id': flow_id}
-            requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
             return flow_id
         
         # def check_active():
