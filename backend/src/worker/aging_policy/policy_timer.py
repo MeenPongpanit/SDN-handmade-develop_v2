@@ -6,14 +6,14 @@ import concurrent.futures
 from threading import Thread 
 
 class Counter(Thread):
-    def __init__(self, name):
+    def __init__(self, key):
         Thread.__init__(self)
-        self.name = name
+        self.key = key
         self.timeout = 10
 
     def run(self):
         time.sleep(self.timeout)
-        key = self.key.slipt('-')
+        key = self.key.split('-')
         print("======================")
         print(key)
         print("======================")
