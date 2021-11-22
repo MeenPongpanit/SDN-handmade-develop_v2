@@ -9,10 +9,20 @@ class Counter(Thread):
     def __init__(self, name):
         Thread.__init__(self)
         self.name = name
+        self.timeout = 10
 
     def run(self):
-        for i in range(50):
-            print(self.name + ": " + str(i))
+        time.sleep(self.timeout)
+        key = self.key.slipt('-')
+        print("======================")
+        print(key)
+        print("======================")
+        # payload = {'flow_id':'1'}
+        # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+        # print("@@@@@@@@@@@@@@")
+        # print("@@@@@@@@@@@@@@")
+        # print("@@@@@@@@@@@@@@")
+
 
 class TimerPolicyWorker:
     def __init__(self, obj_id):
@@ -29,10 +39,9 @@ class TimerPolicyWorker:
                 if len(obj) == 14:
                     key = obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port']
                     if key not in self.running_policy:
-                        self.running_policy.append(key)
-                        
-                        t = Counter(key)
-                        t.start()
+                        self.running_policy.append(key)    
+                        Counter(key).start()
+
 
             print(self.running_policy)
             print("############################")
