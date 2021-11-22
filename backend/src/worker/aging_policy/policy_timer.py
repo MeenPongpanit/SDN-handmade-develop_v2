@@ -3,9 +3,16 @@ from pymongo import MongoClient
 import requests
 import time
 import concurrent.futures
-import threading
+from threading import Thread 
 
+class Counter(Thread):
+    def __init__(self, end):
+        Thread.__init__(self)
+        self.end = end
 
+    def run(self):
+        for i in range(1, self.end + 1):
+            print(self.name + ": " + str(i))
 
 class TimerPolicyWorker:
     def __init__(self, obj_id):
@@ -19,12 +26,6 @@ class TimerPolicyWorker:
 
 
     def run(self):
-        def thread_callback():
-            print("$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$")
-            print("Hello inside Thread")
-            print("$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$")
 
         while True:
             self.flow = self.client.sdn01.flow_routing.find()
@@ -34,8 +35,8 @@ class TimerPolicyWorker:
                     if key not in self.running_policy:
                         self.running_policy.append(key)
                         
-                        thr = threading.Thread(target=thread_callback)
-                        thr.start()
+                        t = Counter(50)
+                        t.start()
 
             print(self.running_policy)
             print("############################")
