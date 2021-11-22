@@ -7,16 +7,18 @@ import concurrent.futures
 class TimerPolicyWorker:
     def __init__(self, obj_id):
         self.obj_id = obj_id
-        self.client = MongoClient('localhost', 27017)
-        self.flow = self.client.sdn01.flow_routing.find() 
+        self.client = MongoClient('localhost', 27017)   
         self.timeout = 20
         self.running_policy = []
 
     def run(self):
         while True:
+            self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
+                print(len(obj))
                 self.running_policy.append(obj)
             print("############################")
-            print(self.running_policy)
+
+            # print(self.running_policy)
             print("############################")
             time.sleep(2)
