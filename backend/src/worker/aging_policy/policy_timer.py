@@ -3,6 +3,10 @@ from pymongo import MongoClient
 import requests
 import time
 import concurrent.futures
+import threading
+
+
+class Timeout
 
 class TimerPolicyWorker:
     def __init__(self, obj_id):
@@ -11,7 +15,18 @@ class TimerPolicyWorker:
         self.timeout = 20
         self.running_policy = []
 
+    
+
+
+
     def run(self):
+        def thread_callback():
+            print("$$$$$$$$$$$$$$$$$$$$")
+            print("$$$$$$$$$$$$$$$$$$$$")
+            print("Hello inside Thread")
+            print("$$$$$$$$$$$$$$$$$$$$")
+            print("$$$$$$$$$$$$$$$$$$$$")
+
         while True:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
@@ -19,6 +34,10 @@ class TimerPolicyWorker:
                     key = obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port']
                     if key not in self.running_policy:
                         self.running_policy.append(key)
+                        
+                        thr = threading.Thread(target=thread_callback)
+                        thr.start()
+
             print(self.running_policy)
             print("############################")
 
