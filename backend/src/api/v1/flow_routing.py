@@ -28,7 +28,6 @@ class FlowRoutingView(HTTPMethodView):
                 })
 
             
-
             policy = {
                 # 'policy_id': policy_id,
                 'new_flow': {

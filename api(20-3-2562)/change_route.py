@@ -10,7 +10,7 @@ controller_ip = "10.50.34.37"
 def call_change_route_api():
     """prepare all agrs need for change route and call it's API"""
     src_net, dst_net = '192.168.8.0', '192.168.10.0'
-    src_port, dst_port = 'any', '5555'
+    src_port, dst_port = 'any', 'any'
     path = get_path(src_net, dst_net)
     print("A")
     change_route(path, src_net, dst_net, src_port, dst_port)
@@ -109,6 +109,84 @@ def call_delete():
     print(response)
 
 # call_delete()
-call_change_route_api()
+# call_change_route_api()
+def ip_to_bin():
+    pass
+"""sssssssssssss"""
+
+def mask_to_bimask(mask):
+    bi_mask = []
+    ip = ''
+    for i in range(32):
+        if i <= mask:
+            ip += '1'
+        else:
+            ip += '0'
+        if ((i+1)%8 == 0 and i != 1) or i == 31:
+            bi_mask.append(ip)
+            ip = ''
+    return bi_mask
+
+def ip_to_biip(ip):
+    ip = ip.split(".")
+    for i in range(4):
+        ip[i] = str(bin(int(ip[i]))[2:])
+        while len(ip[i]) < 8:
+            ip[i] = '0' + ip[i]
+    return ip
+
+def compare_ip_mask(bi_ip, bi_mask):
+    network = []
+    for octed in range(4):
+        temp = ''
+        for index in range(8):
+            if bi_ip[octed][index] == '1' and bi_mask[octed][index] == '1':
+                temp += '1'
+            else:
+                temp += '0'
+        network.append(temp)
+    return network
+
+def bi_to_ip(bi):
+    for i in range(4):
+        bi[i] = str(int(bi[i], base=2))
+    network = '.'.join(bi)
+    return network
+
+def convert_ip_to_network(ip, mask):
+    bi_mask = mask_to_bimask(mask)
+    bi_ip = ip_to_biip(ip)
+    print(bi_mask)
+    print(bi_ip)
+
+    network = compare_ip_mask(bi_ip, bi_mask)
+    print(network)
+    network = bi_to_ip(network)
+    print(network)
+
+def wildcard_to_mask(wildcard):
+    wildcard = wildcard.split('.')
+    
+    for i in range(4):
+        wildcard[i] = str(bin(int(wildcard[i]))[2:])
+        while len(wildcard[i]) < 8:
+                wildcard[i] = '0' + wildcard[i]
+    wildcard = ''.join(wildcard)
+    mask = wildcard.count('0')
+    return mask
+
+
+convert_ip_to_network('192.168.8.129', 25)
+wildcard_to_mask('0.0.0.7')
+
+# flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()
+# all_flow = flow['flows']
+
+
+
+
+
+flow = requests.get("http://"+controller_ip+":5001/api/v1/flow/routing").json()
+print(flow)
 
 

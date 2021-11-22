@@ -23,7 +23,7 @@ class Counter(Thread):
                 for obj in flow:
                     if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
                         payload = {'flow_id':str(obj['flow_id'])}
-                        requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+                        # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
                         break
                 break
         

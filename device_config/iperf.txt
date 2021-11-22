@@ -8,3 +8,18 @@ flow กำหนดโดย src dst ip / src dst port ถ้า 4 ตัวน
 
 
 จำเครื่องที่กำหนด policy เพื่อรองรับ flow ถ้า flow ไม่มาก็ลบ 
+
+
+I have IP + mask
+convert to network
+
+you have IP + wild card
+192.168.8.0 + 0.0.0.255
+convert to network
+
+1111111111
+111111111
+11111111
+11111111	
+11111111
+0000000
