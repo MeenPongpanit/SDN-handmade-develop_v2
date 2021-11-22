@@ -6,7 +6,6 @@ import concurrent.futures
 import threading
 
 
-class Timeout
 
 class TimerPolicyWorker:
     def __init__(self, obj_id):
