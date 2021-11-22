@@ -41,7 +41,7 @@ class Topology:
             ClearDeviceTask
         )
 
-        # self.policy_timer_worker = TimerPolicyWorker(4)
+        self.policy_timer_worker = TimerPolicyWorker(4)
 
 
         # Thread for SSH Worker
@@ -77,7 +77,7 @@ class Topology:
         self._ssh_worker_t.start()
         self.app_repository.set_running(True)
         
-        # self.policy_timer_worker.run()
+        self.policy_timer_worker.run()
 
 
     def shutdown(self):
