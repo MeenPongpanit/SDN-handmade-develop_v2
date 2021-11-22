@@ -6,10 +6,9 @@ import concurrent.futures
 from threading import Thread 
 
 class Counter(Thread):
-    def __init__(self, end):
+    def __init__(self, name):
         Thread.__init__(self)
-        self.end = end
-
+        self.name = name
 
     def run(self):
         for i in range(50):
@@ -32,7 +31,7 @@ class TimerPolicyWorker:
                     if key not in self.running_policy:
                         self.running_policy.append(key)
                         
-                        t = Counter(50)
+                        t = Counter(key)
                         t.start()
 
             print(self.running_policy)
