@@ -15,7 +15,9 @@ class TimerPolicyWorker:
         while True:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
-                print(len(obj))
+                if len(obj) == 14:
+                    key = obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port']
+                    print(key)
                 self.running_policy.append(obj)
             print("############################")
 
