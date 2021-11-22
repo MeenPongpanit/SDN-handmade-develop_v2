@@ -17,8 +17,9 @@ class TimerPolicyWorker:
             for obj in self.flow:
                 if len(obj) == 14:
                     key = obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port']
-                    print(key)
-                self.running_policy.append(obj)
+                    if key not in self.running_policy:
+                        self.running_policy.append(key)
+            print(key)
             print("############################")
 
             # print(self.running_policy)
