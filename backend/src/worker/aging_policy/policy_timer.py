@@ -13,14 +13,20 @@ class Counter(Thread):
 
     def run(self):
         time.sleep(self.timeout)
-        key = self.key
-        flow = MongoClient('localhost', 27017).sdn01.flow_routing.find()
-
-        for obj in flow:
-            if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
-                payload = {'flow_id':str(obj['flow_id'])}
-                requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+        while True:
+            if self.timeout > 5:
+                timeout = self.timeout
+                time.sleep(timeout)
+            else:
+                key = self.key
+                flow = MongoClient('localhost', 27017).sdn01.flow_routing.find()
+                for obj in flow:
+                    if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
+                        payload = {'flow_id':str(obj['flow_id'])}
+                        requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+                        break
                 break
+        
 
 
 class TimerPolicyWorker:
@@ -31,12 +37,10 @@ class TimerPolicyWorker:
 
 
     def run(self):
-
         while True:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
                 if len(obj) == 14:
                     key = (obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port']).split("-")
                     Counter(key).start()
-
-            time.sleep(2)
+            time.sleep(20)
