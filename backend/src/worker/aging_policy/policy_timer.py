@@ -21,10 +21,6 @@ class TimerPolicyWorker:
         self.timeout = 20
         self.running_policy = []
 
-    
-
-
-
     def run(self):
 
         while True:
