@@ -19,7 +19,7 @@ class TimerPolicyWorker:
                     key = obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port']
                     if key not in self.running_policy:
                         self.running_policy.append(key)
-            print(key)
+            print(self.running_policy)
             print("############################")
 
             # print(self.running_policy)
