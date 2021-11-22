@@ -14,9 +14,17 @@ class Counter(Thread):
     def run(self):
         time.sleep(self.timeout)
         key = self.key.split('-')
-        print("======================")
-        print(key)
-        print("======================")
+        flow = MongoClient('localhost', 27017).sdn01.flow_routing.find()
+
+        for obj in flow:
+            if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
+                print("@@@@@@@@@@@@@")
+                print("@@@@@@@@@@@@@")
+                print("@@@@@@@@@@@@@")
+                print(obj['flow_id'])
+                print("@@@@@@@@@@@@@")
+                print("@@@@@@@@@@@@@")
+                print("@@@@@@@@@@@@@")
         # payload = {'flow_id':'1'}
         # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
         # print("@@@@@@@@@@@@@@")
