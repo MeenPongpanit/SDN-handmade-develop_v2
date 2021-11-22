@@ -10,8 +10,9 @@ class Counter(Thread):
         Thread.__init__(self)
         self.end = end
 
+
     def run(self):
-        for i in range(1, self.end + 1):
+        for i in range(50):
             print(self.name + ": " + str(i))
 
 class TimerPolicyWorker:
