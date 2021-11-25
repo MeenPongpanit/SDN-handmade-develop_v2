@@ -108,8 +108,7 @@ def call_delete():
     response = requests.delete("http://"+controller_ip+":5001/api/v1/flow/routing",  params=payload)
     print(response)
 
-# call_delete()
-# call_change_route_api()
+
 def ip_to_bin():
     pass
 """sssssssssssss"""
@@ -181,12 +180,13 @@ wildcard_to_mask('0.0.0.7')
 
 # flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()
 # all_flow = flow['flows']
+# call_delete()
+call_change_route_api()
 
 
 
 
-
-flow = requests.get("http://"+controller_ip+":5001/api/v1/flow/routing").json()
+# flow = requests.get("http://"+controller_ip+":5001/api/v1/flow/routing").json()
 print(flow)
 
 
