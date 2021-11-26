@@ -4,7 +4,7 @@ import requests
 import time
 import concurrent.futures
 from threading import Thread
-from change_route import *
+# from change_route import *
 
 class Counter(Thread):
     def __init__(self, key, client):
