@@ -26,9 +26,6 @@ class Counter(Thread):
                 dst_ip_list.append(str(i))
 
             if str(self.key['src_port']).lower() == 'any' and str(self.key['dst_port']).lower() == 'any':
-                print("@@@@@@@@@@@@@@@@@@@@")
-                print("@@@@@@@@@@@@@@@@@@@@")
-                print("@@@@@@@@@@@@@@@@@@@@")
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list} } )
             elif str(self.key['src_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
@@ -37,23 +34,14 @@ class Counter(Thread):
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
             
-            
-            # if len(flows):
-            #     print("9999999999999999999999999")
-            #     print("9999999999999999999999999")
-            #     print("9999999999999999999999999")
-            #     timeout = self.timeout
-            #     time.sleep(timeout)
-            # else:
-            #     # key = self.key
-            #     flow = self.client.sdn01.flow_routing.find()
-            #     for obj in flow:
-            #         #if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
-            #         if all(self.key[i] == obj[i] for i in self.key):
-            #             payload = {'flow_id':str(obj['flow_id'])}
-            #             # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
-            #             break
-            #     break
+            try:
+                if flows[0]:
+                    time.sleep(self.timeout)
+            except:
+                payload = {'flow_id': self.key['flow_id']}
+                # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+
+                break
         
 
 
@@ -68,7 +56,7 @@ class TimerPolicyWorker:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
                 if len(obj) == 14:
-                    key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard']}
+                    key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
                     Counter(key, self.client).start()
                     
             time.sleep(20)
