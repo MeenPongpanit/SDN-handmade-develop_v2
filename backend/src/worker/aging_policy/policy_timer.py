@@ -50,11 +50,13 @@ class Counter(Thread):
                 for i in flows:
                     print(str(i))
             elif str(self.key['dst_port']).lower() == 'any':
+                # flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
+                print("3333333333333333333333333333333333333")
+                print("3333333333333333333333333333333333333")
+                print("3333333333333333333333333333333333333")
+                print("3333333333333333333333333333333333333")
+                print(src_ip_list)
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
-                print("3333333333333333333333333333333333333")
-                print("3333333333333333333333333333333333333")
-                print("3333333333333333333333333333333333333")
-                print("3333333333333333333333333333333333333")
                 for i in flows:
                     print(str(i))
             else:
@@ -79,7 +81,7 @@ class Counter(Thread):
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 payload = {'flow_id': self.key['flow_id']}
                 print(payload)
-                requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+                # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
                 break
 
 
