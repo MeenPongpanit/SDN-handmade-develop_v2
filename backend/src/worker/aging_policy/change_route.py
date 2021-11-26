@@ -140,7 +140,7 @@ def convert_ip_to_network(ip, mask):
 from pymongo import MongoClient
 
 # key = {'ipv4_dst_addr':'10.50.34.37', 'ipv4_src_addr':'192.168.7.18'}
-client = MongoClient('10.50.34.37', 27017) 
+
 
 policy = client.sdn01.flow_routing.find()
 for i in policy:
@@ -157,6 +157,7 @@ for i in policy:
         ip_list.append(str(i))
 
     flow = []
+    client = MongoClient('10.50.34.37', 27017) 
     flows = client.sdn01.flow_stat
 
     flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
@@ -172,3 +173,4 @@ for i in policy:
     # print(len(flow))
     # print(flows)
 
+flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': ['192.168.10.100']} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
