@@ -22,12 +22,24 @@ class Counter(Thread):
             dst_network_obj = IPv4Network(self.key['dst_ip'] + '/' + str(dst_prefix))
             for i in src_network_obj:
                 src_ip_list.append(str(i))
-                print(str(i))
             for i in dst_network_obj:
                 dst_ip_list.append(str(i))
-                print(str(i))
 
-            if self.timeout > 5:
+            if str(self.key['src_port']).lower() == 'any' and str(self.key['dst_port']).lower() == 'any':
+                print("@@@@@@@@@@@@@@@@@@@@")
+                print("@@@@@@@@@@@@@@@@@@@@")
+                print("@@@@@@@@@@@@@@@@@@@@")
+                flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list} } )
+            elif str(self.key['src_port']).lower() == 'any':
+                flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
+            elif str(self.key['dst_port']).lower() == 'any':
+                flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])} } )
+            else:
+                flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
+            if len(flows):
+                print("9999999999999999999999999")
+                print("9999999999999999999999999")
+                print("9999999999999999999999999")
                 timeout = self.timeout
                 time.sleep(timeout)
             else:
