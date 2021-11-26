@@ -1,6 +1,8 @@
 """This file is for calling change route api"""
 import requests
 import time
+from ipaddress import IPv4Network, IPv4Address
+
 
 
 start = time.perf_counter()
@@ -155,13 +157,12 @@ def bi_to_ip(bi):
 def convert_ip_to_network(ip, mask):
     bi_mask = mask_to_bimask(mask)
     bi_ip = ip_to_biip(ip)
-    print(bi_mask)
-    print(bi_ip)
+
 
     network = compare_ip_mask(bi_ip, bi_mask)
-    print(network)
+
     network = bi_to_ip(network)
-    print(network)
+    return network
 
 def wildcard_to_mask(wildcard):
     wildcard = wildcard.split('.')
@@ -174,19 +175,56 @@ def wildcard_to_mask(wildcard):
     mask = wildcard.count('0')
     return mask
 
+def check_flow(src_ip, src_port, dst_ip, dst_port):
 
-convert_ip_to_network('192.168.8.129', 25)
-wildcard_to_mask('0.0.0.7')
-
-# flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()
-# all_flow = flow['flows']
-# call_delete()
-call_change_route_api()
-
+    check = False
+    if 1:
+        return True
+    else:
+        return False
 
 
 
-# flow = requests.get("http://"+controller_ip+":5001/api/v1/flow/routing").json()
-print(flow)
+# wildcard_to_mask('0.0.0.7')
+
+# # flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()
+# # all_flow = flow['flows']
+# # call_delete()
+# # call_change_route_api()
 
 
+
+# policy = requests.get("http://"+controller_ip+":5001/api/v1/flow/routing").json()['flows']
+# flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()['flows']
+
+# print(policy)
+
+from pymongo import MongoClient
+
+key = {'ipv4_dst_addr':'10.50.34.37', 'ipv4_src_addr':'192.168.7.18'}
+client = MongoClient('10.50.34.37', 27017) 
+
+policy = client.sdn01.flow_routing.find()
+for i in policy:
+
+    src_ip = i['src_ip']
+    wildcard = i['src_wildcard']
+    ip_list = []
+    prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(wildcard))^(2**32-1))
+    src_network_obj = IPv4Network(src_ip + '/' + str(prefix))
+
+    for i in src_network_obj:
+        ip_list.append(str(i))
+
+    flow = []
+    flows = client.sdn01.flow_stat
+
+    flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
+    flows = flows.find({'l4_src_port': { '$in': [161] }})
+    
+    for x in flows:
+        print(x)
+        flow.append(x)
+
+    print(len(flow))
+    print(flows)
