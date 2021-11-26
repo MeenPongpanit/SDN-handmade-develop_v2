@@ -71,11 +71,12 @@ class Counter(Thread):
             for i in flows:
                 check.append(i)
                 break
-            if len(check):
+            if len(check) > 0:
                 print("=====================")
                 print("=====================")
                 time.sleep(self.timeout)
             else:
+                print(len(check))
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
