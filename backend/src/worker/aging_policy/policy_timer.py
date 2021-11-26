@@ -55,8 +55,8 @@ class Counter(Thread):
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
-                print(src_ip_list)
-                flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
+                # print(src_ip_list)
+                flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list}  } )
                 for i in flows:
                     print(str(i))
             else:
