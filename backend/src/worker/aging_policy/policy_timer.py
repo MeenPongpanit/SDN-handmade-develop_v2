@@ -36,22 +36,24 @@ class Counter(Thread):
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])} } )
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
-            if len(flows):
-                print("9999999999999999999999999")
-                print("9999999999999999999999999")
-                print("9999999999999999999999999")
-                timeout = self.timeout
-                time.sleep(timeout)
-            else:
-                # key = self.key
-                flow = self.client.sdn01.flow_routing.find()
-                for obj in flow:
-                    #if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
-                    if all(self.key[i] == obj[i] for i in self.key):
-                        payload = {'flow_id':str(obj['flow_id'])}
-                        # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
-                        break
-                break
+            
+            
+            # if len(flows):
+            #     print("9999999999999999999999999")
+            #     print("9999999999999999999999999")
+            #     print("9999999999999999999999999")
+            #     timeout = self.timeout
+            #     time.sleep(timeout)
+            # else:
+            #     # key = self.key
+            #     flow = self.client.sdn01.flow_routing.find()
+            #     for obj in flow:
+            #         #if key[0] == obj['src_ip'] and key[1] == obj['src_port'] and key[2] == obj['dst_ip'] and key[3] == obj['dst_port']:
+            #         if all(self.key[i] == obj[i] for i in self.key):
+            #             payload = {'flow_id':str(obj['flow_id'])}
+            #             # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            #             break
+            #     break
         
 
 
