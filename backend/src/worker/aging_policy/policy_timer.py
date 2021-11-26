@@ -10,7 +10,7 @@ class Counter(Thread):
     def __init__(self, key, client):
         Thread.__init__(self)
         self.key = key
-        self.timeout = 5
+        self.timeout = 10
         self.client = client
 
     def run(self):
@@ -36,6 +36,9 @@ class Counter(Thread):
             
             try:
                 if flows[0]:
+                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                     time.sleep(self.timeout)
             except:
                 payload = {'flow_id': self.key['flow_id']}
