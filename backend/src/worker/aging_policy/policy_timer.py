@@ -51,6 +51,7 @@ class Counter(Thread):
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
+                print(flows[0])
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
                 print("444444444444444444444444444444444444444444")
@@ -71,6 +72,7 @@ class Counter(Thread):
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 payload = {'flow_id': self.key['flow_id']}
+                print(payload)
                 requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
                 break
 
