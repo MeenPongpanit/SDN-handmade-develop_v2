@@ -62,21 +62,19 @@ class Counter(Thread):
                 print("#############")
                 print(i)
                 print("#####################")
-            try:
-                if 1:
-                    print("=====================")
-                    print(flows[0])
-                    print("=====================")
+            if 1:
+                print("=====================")
+                print("=====================")
 
-                    time.sleep(self.timeout)
-            except:
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                payload = {'flow_id': self.key['flow_id']}
-                print(payload)
-                requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
-                break
+                time.sleep(self.timeout)
+
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            payload = {'flow_id': self.key['flow_id']}
+            print(payload)
+            requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+            break
 
 
 class TimerPolicyWorker:

@@ -141,36 +141,54 @@ from pymongo import MongoClient
 
 # key = {'ipv4_dst_addr':'10.50.34.37', 'ipv4_src_addr':'192.168.7.18'}
 
+# for i in policy:
 
+#     src_ip = i['src_ip']
+#     wildcard = i['src_wildcard']
+#     ip_list = []
+#     prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(wildcard))^(2**32-1))
+#     print(src_ip)
+    
+#     src_network_obj = IPv4Network(convert_ip_to_network(src_ip, prefix) + '/' + str(prefix))
+
+#     for i in src_network_obj:
+#         ip_list.append(str(i))
+
+#     flow = []
+    
+#     flows = client.sdn01.flow_stat
+
+#     flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
+#     # print(flows[0]['first_switched'])
+#     # print(flows[0]['last_switched'])
+#     # print(flows[0]['created_at'])
+    
+
+#     # for x in flows:
+#     #     print(x)
+#     #     flow.append(x)
+
+#     # print(len(flow))
+#     # print(flows)
+
+client = MongoClient('10.50.34.37', 27017) 
 policy = client.sdn01.flow_routing.find()
-for i in policy:
-
-    src_ip = i['src_ip']
-    wildcard = i['src_wildcard']
-    ip_list = []
-    prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(wildcard))^(2**32-1))
-    print(src_ip)
+src_ip_list, dst_ip_list = [], []
     
-    src_network_obj = IPv4Network(convert_ip_to_network(src_ip, prefix) + '/' + str(prefix))
+    # src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
 
-    for i in src_network_obj:
-        ip_list.append(str(i))
+src_network_obj = IPv4Network(convert_ip_to_network('192.168.8.100', 24) + '/' + str(24))
+dst_network_obj = IPv4Network(convert_ip_to_network('192.168.10.0', 24) + '/' + str(24))
 
-    flow = []
-    client = MongoClient('10.50.34.37', 27017) 
-    flows = client.sdn01.flow_stat
 
-    flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
-    # print(flows[0]['first_switched'])
-    # print(flows[0]['last_switched'])
-    # print(flows[0]['created_at'])
-    
+for i in src_network_obj:
+    src_ip_list.append(str(i))
+for i in dst_network_obj:
+    dst_ip_list.append(str(i))
+flows = client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [5555]} } )
+print(flows)
 
-    # for x in flows:
-    #     print(x)
-    #     flow.append(x)
 
-    # print(len(flow))
-    # print(flows)
-
-flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': ['192.168.10.100']} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
+a = client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,'ipv4_dst_addr': {'$in': dst_ip_list} } )
+for i in a:
+    print(i)
