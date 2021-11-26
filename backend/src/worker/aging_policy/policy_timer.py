@@ -35,17 +35,35 @@ class Counter(Thread):
 
             if str(self.key['src_port']).lower() == 'any' and str(self.key['dst_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list} } )
+                print("11111111111111111111111111111111111111111")
+                print("11111111111111111111111111111111111111111")
+                print("11111111111111111111111111111111111111111")
+                print("11111111111111111111111111111111111111111")
             elif str(self.key['src_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
+                print("2222222222222222222222222222222222222")
+                print("2222222222222222222222222222222222222")
+                print("2222222222222222222222222222222222222")
+                print("2222222222222222222222222222222222222")
             elif str(self.key['dst_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])} } )
+                print("3333333333333333333333333333333333333")
+                print("3333333333333333333333333333333333333")
+                print("3333333333333333333333333333333333333")
+                print("3333333333333333333333333333333333333")
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
+                print("444444444444444444444444444444444444444444")
+                print("444444444444444444444444444444444444444444")
+                print("444444444444444444444444444444444444444444")
+                print("444444444444444444444444444444444444444444")
             
 
             try:
                 if flows[0]:
+                    print("=====================")
                     print(flows[0])
+                    print("=====================")
 
                     time.sleep(self.timeout)
             except:
@@ -60,8 +78,7 @@ class Counter(Thread):
 class TimerPolicyWorker:
     def __init__(self, obj_id):
         self.obj_id = obj_id
-        self.client = MongoClient('localhost', 27017)   
-        self.timeout = 20
+        self.client = MongoClient('localhost', 27017)
 
     def run(self):
         while True:
@@ -70,4 +87,4 @@ class TimerPolicyWorker:
                 if len(obj) == 14:
                     key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
                     Counter(key, self.client).start()
-            time.sleep(60)
+            time.sleep(10)
