@@ -1,7 +1,7 @@
 """This file is for calling change route api"""
 import requests
 import time
-from ipaddress import IPv4Network, IPv4Address
+from ipaddress import IPv4Network, IPv4Address, ip_network
 
 
 
@@ -111,77 +111,15 @@ def call_delete():
     print(response)
 
 
-def ip_to_bin():
-    pass
-"""sssssssssssss"""
-
-def mask_to_bimask(mask):
-    bi_mask = []
-    ip = ''
-    for i in range(32):
-        if i <= mask:
-            ip += '1'
-        else:
-            ip += '0'
-        if ((i+1)%8 == 0 and i != 1) or i == 31:
-            bi_mask.append(ip)
-            ip = ''
-    return bi_mask
-
-def ip_to_biip(ip):
-    ip = ip.split(".")
-    for i in range(4):
-        ip[i] = str(bin(int(ip[i]))[2:])
-        while len(ip[i]) < 8:
-            ip[i] = '0' + ip[i]
-    return ip
-
-def compare_ip_mask(bi_ip, bi_mask):
-    network = []
-    for octed in range(4):
-        temp = ''
-        for index in range(8):
-            if bi_ip[octed][index] == '1' and bi_mask[octed][index] == '1':
-                temp += '1'
-            else:
-                temp += '0'
-        network.append(temp)
-    return network
-
-def bi_to_ip(bi):
-    for i in range(4):
-        bi[i] = str(int(bi[i], base=2))
-    network = '.'.join(bi)
-    return network
 
 def convert_ip_to_network(ip, mask):
-    bi_mask = mask_to_bimask(mask)
-    bi_ip = ip_to_biip(ip)
+    bi_mask = '1'*mask + '0'*(32-mask)
+    bi_ip = ''.join([bin(int(i)+256)[3:] for i in str(ip).split('.')])
+    bi_network = ''.join([(x, '0')[y == '0'] for x, y in zip(bi_ip, bi_mask)])
+    network_address = str(IPv4Address(int(bi_network, 2)))
+    return network_address
 
 
-    network = compare_ip_mask(bi_ip, bi_mask)
-
-    network = bi_to_ip(network)
-    return network
-
-def wildcard_to_mask(wildcard):
-    wildcard = wildcard.split('.')
-    
-    for i in range(4):
-        wildcard[i] = str(bin(int(wildcard[i]))[2:])
-        while len(wildcard[i]) < 8:
-                wildcard[i] = '0' + wildcard[i]
-    wildcard = ''.join(wildcard)
-    mask = wildcard.count('0')
-    return mask
-
-def check_flow(src_ip, src_port, dst_ip, dst_port):
-
-    check = False
-    if 1:
-        return True
-    else:
-        return False
 
 
 
@@ -201,7 +139,7 @@ def check_flow(src_ip, src_port, dst_ip, dst_port):
 
 from pymongo import MongoClient
 
-key = {'ipv4_dst_addr':'10.50.34.37', 'ipv4_src_addr':'192.168.7.18'}
+# key = {'ipv4_dst_addr':'10.50.34.37', 'ipv4_src_addr':'192.168.7.18'}
 client = MongoClient('10.50.34.37', 27017) 
 
 policy = client.sdn01.flow_routing.find()
@@ -211,7 +149,9 @@ for i in policy:
     wildcard = i['src_wildcard']
     ip_list = []
     prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(wildcard))^(2**32-1))
-    src_network_obj = IPv4Network(src_ip + '/' + str(prefix))
+    print(src_ip)
+    
+    src_network_obj = IPv4Network(convert_ip_to_network(src_ip, prefix) + '/' + str(prefix))
 
     for i in src_network_obj:
         ip_list.append(str(i))
@@ -220,9 +160,9 @@ for i in policy:
     flows = client.sdn01.flow_stat
 
     flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
-    print(flows[0]['first_switched'])
-    print(flows[0]['last_switched'])
-    print(flows[0]['created_at'])
+    # print(flows[0]['first_switched'])
+    # print(flows[0]['last_switched'])
+    # print(flows[0]['created_at'])
     
 
     # for x in flows:
@@ -231,3 +171,4 @@ for i in policy:
 
     # print(len(flow))
     # print(flows)
+
