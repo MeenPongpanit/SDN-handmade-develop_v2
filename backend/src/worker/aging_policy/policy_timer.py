@@ -4,7 +4,7 @@ import requests
 import time
 import concurrent.futures
 from threading import Thread
-# from change_route import *
+from ipaddress import IPv4Network, IPv4Address
 
 class Counter(Thread):
     def __init__(self, key, client):
@@ -15,9 +15,13 @@ class Counter(Thread):
 
     def run(self):
         time.sleep(self.timeout)
-
-        
         while True:
+            src_ip_list, dst_ip_list = [], []
+            src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
+            print("@@@@@@@@@@@@@@@@@@")
+            print(src_prefix, dst_prefix)
+            print("@@@@@@@@@@@@@@@@@@")
+
             if self.timeout > 5:
                 timeout = self.timeout
                 time.sleep(timeout)
@@ -45,16 +49,7 @@ class TimerPolicyWorker:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
                 if len(obj) == 14:
-                    key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard']}
-                    # key = (obj['src_ip'] + "-" + obj['src_port'] + "-" + obj['dst_ip'] + "-" + obj['dst_port'] + "-" + obj['src_wildcard']).split("-")
+                    key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard']}
                     Counter(key, self.client).start()
                     
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
             time.sleep(20)
