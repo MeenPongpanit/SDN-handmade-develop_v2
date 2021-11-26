@@ -10,7 +10,7 @@ class Counter(Thread):
     def __init__(self, key, client):
         Thread.__init__(self)
         self.key = key
-        self.timeout = 2
+        self.timeout = 5
         self.client = client
 
     def run(self):
@@ -39,10 +39,8 @@ class Counter(Thread):
                     time.sleep(self.timeout)
             except:
                 payload = {'flow_id': self.key['flow_id']}
-                # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
-
+                requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
                 break
-        
 
 
 class TimerPolicyWorker:
@@ -58,5 +56,4 @@ class TimerPolicyWorker:
                 if len(obj) == 14:
                     key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
                     Counter(key, self.client).start()
-                    
-            time.sleep(20)
+            time.sleep(60)

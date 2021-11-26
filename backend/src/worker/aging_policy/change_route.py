@@ -220,7 +220,9 @@ for i in policy:
     flows = client.sdn01.flow_stat
 
     flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
-    print(flows[0])
+    print(flows[0]['first_switched'])
+    print(flows[0]['last_switched'])
+    print(flows[0]['created_at'])
     
 
     # for x in flows:
