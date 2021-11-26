@@ -39,42 +39,48 @@ class Counter(Thread):
                 print("11111111111111111111111111111111111111111")
                 print("11111111111111111111111111111111111111111")
                 print("11111111111111111111111111111111111111111")
+                for i in flows:
+                    print(str(i))
             elif str(self.key['src_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_dst_port': {'$in': [int(self.key['dst_port'])]} } )
                 print("2222222222222222222222222222222222222")
                 print("2222222222222222222222222222222222222")
                 print("2222222222222222222222222222222222222")
                 print("2222222222222222222222222222222222222")
+                for i in flows:
+                    print(str(i))
             elif str(self.key['dst_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
                 print("3333333333333333333333333333333333333")
+                for i in flows:
+                    print(str(i))
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])] }, 'l4_dst_port': {'$in': [int(self.key['dst_port'])]} } )
                 print("444444444444444444444444444444444444444444")
                 print("444444444444444444444444444444444444444444")
                 print("444444444444444444444444444444444444444444")
                 print("444444444444444444444444444444444444444444")
-            
+                for i in flows:
+                    print(str(i))
+            check = []
             for i in flows:
-                print("#############")
-                print(i)
-                print("#####################")
-            if 1:
+                check.append(i)
+                break
+            if len(check):
                 print("=====================")
                 print("=====================")
-
                 time.sleep(self.timeout)
-
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            payload = {'flow_id': self.key['flow_id']}
-            print(payload)
-            requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
-            break
+            else:
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                payload = {'flow_id': self.key['flow_id']}
+                print(payload)
+                requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+                break
 
 
 class TimerPolicyWorker:
