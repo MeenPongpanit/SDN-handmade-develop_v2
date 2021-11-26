@@ -5,7 +5,7 @@ import time
 import concurrent.futures
 from threading import Thread
 from ipaddress import IPv4Network, IPv4Address
-from change_route import convert_ip_to_network
+
 
 class Counter(Thread):
     def __init__(self, key, client):
@@ -15,6 +15,13 @@ class Counter(Thread):
         self.client = client
 
     def run(self):
+        def convert_ip_to_network(ip, mask):
+            bi_mask = '1'*mask + '0'*(32-mask)
+            bi_ip = ''.join([bin(int(i)+256)[3:] for i in str(ip).split('.')])
+            bi_network = ''.join([(x, '0')[y == '0'] for x, y in zip(bi_ip, bi_mask)])
+            network_address = str(IPv4Address(int(bi_network, 2)))
+            return network_address
+            
         time.sleep(self.timeout)
         while True:
             src_ip_list, dst_ip_list = [], []
