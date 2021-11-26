@@ -21,7 +21,7 @@ class Counter(Thread):
             bi_network = ''.join([(x, '0')[y == '0'] for x, y in zip(bi_ip, bi_mask)])
             network_address = str(IPv4Address(int(bi_network, 2)))
             return network_address
-            
+
         time.sleep(self.timeout)
         while True:
             src_ip_list, dst_ip_list = [], []
@@ -42,13 +42,16 @@ class Counter(Thread):
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': int(self.key['src_port'])}, 'l4_dst_port': {'$in': int(self.key['dst_port'])} } )
             
+
             try:
                 if flows[0]:
-                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-                    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                    print(flows[0])
+
                     time.sleep(self.timeout)
             except:
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
                 payload = {'flow_id': self.key['flow_id']}
                 requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
                 break
