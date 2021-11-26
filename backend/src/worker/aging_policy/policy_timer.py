@@ -24,6 +24,7 @@ class Counter(Thread):
 
         time.sleep(self.timeout)
         while True:
+            check = []
             src_ip_list, dst_ip_list = [], []
             src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
             src_network_obj = IPv4Network(convert_ip_to_network(self.key['src_ip'], int(src_prefix)) + '/' + str(src_prefix))
@@ -40,7 +41,8 @@ class Counter(Thread):
                 print("11111111111111111111111111111111111111111")
                 print("11111111111111111111111111111111111111111")
                 for i in flows:
-                    print(str(i))
+                    check.append(str(i))
+                    break
             elif str(self.key['src_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_dst_port': {'$in': [int(self.key['dst_port'])]} } )
                 print("2222222222222222222222222222222222222")
@@ -48,7 +50,8 @@ class Counter(Thread):
                 print("2222222222222222222222222222222222222")
                 print("2222222222222222222222222222222222222")
                 for i in flows:
-                    print(str(i))
+                    check.append(str(i))
+                    break
             elif str(self.key['dst_port']).lower() == 'any':
                 # flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])]} } )
                 print("3333333333333333333333333333333333333")
@@ -58,7 +61,8 @@ class Counter(Thread):
                 # print(src_ip_list)
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list}  } )
                 for i in flows:
-                    print(str(i))
+                    check.append(str(i))
+                    break
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])] }, 'l4_dst_port': {'$in': [int(self.key['dst_port'])]} } )
                 print("444444444444444444444444444444444444444444")
@@ -66,11 +70,9 @@ class Counter(Thread):
                 print("444444444444444444444444444444444444444444")
                 print("444444444444444444444444444444444444444444")
                 for i in flows:
-                    print(str(i))
-            check = []
-            for i in flows:
-                check.append(str(i))
-                break
+                    check.append(str(i))
+                    break
+
             if len(check):
                 print("=====================")
                 print("=====================")
