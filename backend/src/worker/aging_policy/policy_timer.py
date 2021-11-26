@@ -18,9 +18,14 @@ class Counter(Thread):
         while True:
             src_ip_list, dst_ip_list = [], []
             src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
-            print("@@@@@@@@@@@@@@@@@@")
-            print(src_prefix, dst_prefix)
-            print("@@@@@@@@@@@@@@@@@@")
+            src_network_obj = IPv4Network(self.key['src_ip'] + '/' + str(src_prefix))
+            dst_network_obj = IPv4Network(self.key['dst_ip'] + '/' + str(dst_prefix))
+            for i in src_network_obj:
+                src_ip_list.append(str(i))
+                print(str(i))
+            for i in dst_network_obj:
+                dst_ip_list.append(str(i))
+                print(str(i))
 
             if self.timeout > 5:
                 timeout = self.timeout
