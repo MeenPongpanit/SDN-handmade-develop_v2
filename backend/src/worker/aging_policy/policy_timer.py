@@ -10,7 +10,7 @@ class Counter(Thread):
     def __init__(self, key, client):
         Thread.__init__(self)
         self.key = key
-        self.timeout = 60
+        self.timeout = 2
         self.client = client
 
     def run(self):
