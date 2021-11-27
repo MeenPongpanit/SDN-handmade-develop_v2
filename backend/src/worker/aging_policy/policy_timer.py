@@ -35,6 +35,7 @@ class Counter(Thread):
             print("=======")
             print(self.key)
             print("=======")
+            print(self.info)
             for i in self.key:
                 print(i)
                 if self.key[i].lower() != 'any':
