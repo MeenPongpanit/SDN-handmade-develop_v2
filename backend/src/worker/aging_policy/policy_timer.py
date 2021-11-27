@@ -60,8 +60,7 @@ class Counter(Thread):
 
 
 class TimerPolicyWorker:
-    def __init__(self, obj_id):
-        self.obj_id = obj_id
+    def __init__(self):
         self.client = MongoClient('localhost', 27017)
 
     def run(self):
