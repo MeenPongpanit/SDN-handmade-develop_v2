@@ -54,7 +54,7 @@ class Counter(Thread):
             check = []
             for i in flows:
                 check.append(str(i))
-
+            print(check)
             if len(check):
                 time.sleep(self.timeout)
             else:
