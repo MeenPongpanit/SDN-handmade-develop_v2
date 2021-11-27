@@ -39,7 +39,9 @@ class Counter(Thread):
                 if self.key[i].lower() != 'any':
                     if 'addr' in i:
                         ip_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key[i]))^(2**32-1))
+                        print(ip_prefix)
                         ip_network = IPv4Network(convert_ip_to_network(self.key[i], int(ip_prefix)) + '/' + str(ip_prefix))
+                        print(ip_network)
                         query_filter[i] = {'$in':[str(i) for i in ip_network]}
                     else:
                         query_filter[i] = int(self.key[i])
