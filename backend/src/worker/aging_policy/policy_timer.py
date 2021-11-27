@@ -8,9 +8,10 @@ from ipaddress import IPv4Network, IPv4Address, ip_network
 
 
 class Counter(Thread):
-    def __init__(self, key, client):
+    def __init__(self, key, client, info):
         Thread.__init__(self)
         self.key = key
+        self.info = info
         self.timeout = 5
         self.client = client
 
@@ -38,9 +39,9 @@ class Counter(Thread):
                 print(i)
                 if self.key[i].lower() != 'any':
                     if 'addr' in i:
-                        print(self.key[i])
-                        ip_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key[i]))^(2**32-1))
-                        print(ip_prefix)
+                        index = i + '_wildcard'
+                        print(index)
+                        ip_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.info[i]))^(2**32-1))
                         ip_network = IPv4Network(convert_ip_to_network(self.key[i], int(ip_prefix)) + '/' + str(ip_prefix))
                         print(ip_network)
                         query_filter[i] = {'$in':[str(i) for i in ip_network]}
@@ -79,10 +80,12 @@ class TimerPolicyWorker:
                         'l4_src_port' : obj['src_port'],
                         'ipv4_dst_addr' : obj['dst_ip'],
                         'l4_dst_port' : obj['dst_port'],
-                        'src_wildcard' : obj['src_wildcard'],
-                        'dst_wildcard' : obj['dst_wildcard'],
-                        'flow_id' : obj['flow_id']
                         }
+                    info = {
+                        'ipv4_src_addr_wildcard' : obj['src_wildcard'],
+                        'ipv4_dst_addr_wildcard' : obj['dst_wildcard'],
+                        'flow_id' : obj['flow_id']
+                    }
                     # key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
-                    Counter(key, self.client).start()
+                    Counter(key, info, self.client).start()
             time.sleep(60)
