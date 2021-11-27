@@ -32,12 +32,7 @@ class Counter(Thread):
             # dst_network_obj = IPv4Network(convert_ip_to_network(self.key['dst_ip'], int(dst_prefix)) + '/' + str(dst_prefix))
             
             query_filter = {}
-            print("=======")
-            print(self.key)
-            print("=======")
-            print(self.info)
             for i in self.key:
-                print(i)
                 if self.key[i].lower() != 'any':
                     if 'addr' in i:
                         index = i + '_wildcard'
@@ -56,7 +51,6 @@ class Counter(Thread):
             check = []
             for i in flows:
                 check.append(str(i))
-            print(check)
             if len(check):
                 time.sleep(self.timeout)
             else:
