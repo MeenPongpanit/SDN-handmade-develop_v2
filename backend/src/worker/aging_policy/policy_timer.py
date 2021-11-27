@@ -35,12 +35,8 @@ class Counter(Thread):
             for i in self.key:
                 if self.key[i].lower() != 'any':
                     if 'addr' in i:
-                        index = i + '_wildcard'
-                        print(index)
-                        ip_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.info[index]))^(2**32-1))
-                        print(ip_prefix)
+                        ip_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.info[i + '_wildcard']))^(2**32-1))
                         ip_network = IPv4Network(convert_ip_to_network(self.key[i], int(ip_prefix)) + '/' + str(ip_prefix))
-                        print(ip_network)
                         query_filter[i] = {'$in':[str(i) for i in ip_network]}
                     else:
                         query_filter[i] = int(self.key[i])
@@ -51,6 +47,7 @@ class Counter(Thread):
             check = []
             for i in flows:
                 check.append(str(i))
+            print(check)
             if len(check):
                 time.sleep(self.timeout)
             else:
