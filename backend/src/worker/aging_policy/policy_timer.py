@@ -8,7 +8,7 @@ from ipaddress import IPv4Network, IPv4Address, ip_network
 
 
 class Counter(Thread):
-    def __init__(self, key, client, info):
+    def __init__(self, key, info, client):
         Thread.__init__(self)
         self.key = key
         self.info = info
