@@ -128,7 +128,7 @@ def convert_ip_to_network(ip, mask):
 # # flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()
 # # all_flow = flow['flows']
 # # call_delete()
-# # call_change_route_api()
+call_change_route_api()
 
 
 
