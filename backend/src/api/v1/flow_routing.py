@@ -2,7 +2,6 @@ from bson.json_util import dumps
 from sanic.response import json
 from sanic.views import HTTPMethodView
 from worker.aging_policy.policy_timer import TimerPolicyWorker
-import asyncio
 from repository import PolicyRoute
 
 
@@ -26,7 +25,6 @@ class FlowRoutingView(HTTPMethodView):
                     'action': int(action['action']),
                     'data': action['data']
                 })
-
             
             policy = {
                 # 'policy_id': policy_id,
@@ -39,6 +37,7 @@ class FlowRoutingView(HTTPMethodView):
                     'dst_port': request.json['dst_port'],
                     'dst_wildcard': request.json['dst_subnet'],
                     'actions': actions,
+                    'aging_time' : request.json.get('aging_time', 0)
                 },
                 'info': {
                     'submit_from': {

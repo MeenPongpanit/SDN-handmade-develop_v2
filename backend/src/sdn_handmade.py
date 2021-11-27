@@ -41,7 +41,7 @@ class Topology:
             ClearDeviceTask
         )
 
-        self.policy_timer_worker = TimerPolicyWorker(4)
+        self.policy_timer_worker = TimerPolicyWorker()
 
 
         # Thread for SSH Worker

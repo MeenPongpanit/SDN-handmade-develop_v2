@@ -8,12 +8,13 @@ from ipaddress import IPv4Network, IPv4Address, ip_network
 
 
 class Counter(Thread):
-    def __init__(self, key, info, client):
+    def __init__(self, key, info, client, aging_time):
         Thread.__init__(self)
         self.key = key
         self.info = info
-        self.timeout = 5
+        self.timeout = aging_time
         self.client = client
+        
 
     def run(self):
         def convert_ip_to_network(ip, mask):
@@ -67,7 +68,7 @@ class TimerPolicyWorker:
         while True:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
-                if len(obj) == 14:
+                if len(obj) == 15:
                     key = {
                         'ipv4_src_addr' : obj['src_ip'],
                         'l4_src_port' : obj['src_port'],
@@ -80,5 +81,6 @@ class TimerPolicyWorker:
                         'flow_id' : obj['flow_id']
                     }
                     # key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
-                    Counter(key, info, self.client).start()
+                    if obj['aging_time']:
+                        Counter(key, info, self.client, obj['aging_time']).start()
             time.sleep(60)
