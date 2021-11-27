@@ -24,7 +24,7 @@ class Counter(Thread):
 
         time.sleep(self.timeout)
         while True:
-            check = [1]
+            
             src_ip_list, dst_ip_list = [], []
             src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
             src_network_obj = IPv4Network(convert_ip_to_network(self.key['src_ip'], int(src_prefix)) + '/' + str(src_prefix))
@@ -37,7 +37,8 @@ class Counter(Thread):
 
             if str(self.key['src_port']).lower() == 'any' and str(self.key['dst_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list} } )
-
+                print("444444444444444444444444444444444444")
+                print("444444444444444444444444444444444444")
             elif str(self.key['src_port']).lower() == 'any':
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_dst_port': {'$in': [int(self.key['dst_port'])]} } )
 
@@ -50,17 +51,17 @@ class Counter(Thread):
             else:
                 flows = self.client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [int(self.key['src_port'])] }, 'l4_dst_port': {'$in': [int(self.key['dst_port'])]} } )
 
-
+            check = []
             for i in flows:
-                print(i)  
+                check.append(str(i))
 
             if len(check):
-                print("=====================")
-                print("=====================")
                 time.sleep(self.timeout)
             else:
                 print(len(check))
-
+                print("#########################")
+                print("#########################")
+                print("#########################")
                 payload = {'flow_id': self.key['flow_id']}
                 print(payload)
                 requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
