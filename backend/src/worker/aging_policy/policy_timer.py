@@ -54,7 +54,7 @@ class Counter(Thread):
                 print(len(check))
                 payload = {'flow_id': self.key['flow_id']}
                 print(payload)
-                # requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
+                requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)
                 break
 
 
