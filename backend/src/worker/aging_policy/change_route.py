@@ -67,6 +67,7 @@ def change_route(path, src_net, dst_net, src_port=None, dst_port=None):
         print(interface)
         action = {'device_id':device_id, 'action':2, 'interface':interface, 'data':next_hop_ip}
         new_flow['actions'].append(action)
+        new_flow['aging_time'] = 20
 
     response = requests.post("http://"+controller_ip+":5001/api/v1/flow/routing", json=new_flow)
     print("change route success")
