@@ -35,6 +35,7 @@ class Counter(Thread):
             print(self.key)
             print("=======")
             for i in self.key:
+                print(i)
                 if self.key[i].lower() != 'any':
                     if 'addr' in i:
                         ip_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key[i]))^(2**32-1))
