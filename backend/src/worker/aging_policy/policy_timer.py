@@ -70,6 +70,6 @@ class TimerPolicyWorker:
             self.flow = self.client.sdn01.flow_routing.find()
             for obj in self.flow:
                 if len(obj) == 14:
-                    key = {i:obj[i] for i in ['src_ip', 'src_port', 'dst_ip', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
+                    key = {i:obj[i] for i in ['ipv4_src_addr', 'src_port', 'ipv4_dst_addr', 'dst_port', 'src_wildcard', 'dst_wildcard', 'flow_id']}
                     Counter(key, self.client).start()
             time.sleep(60)
