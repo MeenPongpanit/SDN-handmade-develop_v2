@@ -66,4 +66,8 @@ iperf ยิงขนาด packet ที่เท่ากันเสมอ �
 curl --insecure "https://10.253.190.1/internal/dologin.php" --data "kerio_username=it61070171&kerio_password=WOVtht56"
 
 
+192.168.1.1
+192.168.7.17
+
+
 
