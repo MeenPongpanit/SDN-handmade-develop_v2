@@ -34,7 +34,7 @@ class GraphView(HTTPMethodView):
         nodes = {}
         edges = {}
         flows = request.app.db['flow_stat'].get_all().sort("in_bytes", -1)
-
+        
         filtered_flow = []
         for flow in flows:
             print("@@@@@@@@@@@@@@@@@@")
