@@ -42,7 +42,7 @@ class GraphView(HTTPMethodView):
             print("@@@@@@@@@@@@@@@@@@")
             print(flow)
             print("@@@@@@@@@@@@@@@@@@")
-            if flow['l4_dst_port"'] in filters or flow['l4_src_port"'] in filters :
+            if flow['l4_dst_port'] in filters or flow['l4_src_port'] in filters :
                 filtered_flow.append((flow['from_ip'], flow['ipv4_next_hop']))
 
         for link in data:
