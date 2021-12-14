@@ -24,7 +24,7 @@ class GraphView(HTTPMethodView):
 
     def post(self, request):
         print("------------------------")
-        print(request.json())
+        print(request.json)
         print("------------------------")
         filters = request.json['filters']
 
