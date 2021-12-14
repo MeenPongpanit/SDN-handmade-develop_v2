@@ -43,6 +43,11 @@ def init():
 def net_flow():
     requests.post("http://" + controller_ip +  ":5001/api/v1/initialization", json={'service': 'netflow', 'management_ip':controller_ip})
 
+def do_all():
+    add_device()
+    init()
+    net_flow()
+
 def main():
     print("1 : Add Device")
     print("2 : Remove All Device ")
@@ -57,5 +62,7 @@ def main():
         init()
     elif action == '4':
         net_flow()
+    elif action == '5':
+        do_all()
 
 main()

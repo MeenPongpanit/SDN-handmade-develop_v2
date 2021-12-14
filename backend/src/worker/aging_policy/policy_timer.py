@@ -26,12 +26,6 @@ class Counter(Thread):
 
         time.sleep(self.timeout)
         while True:
-            
-            # src_ip_list, dst_ip_list = [], []
-            # src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
-            # src_network_obj = IPv4Network(convert_ip_to_network(self.key['src_ip'], int(src_prefix)) + '/' + str(src_prefix))
-            # dst_network_obj = IPv4Network(convert_ip_to_network(self.key['dst_ip'], int(dst_prefix)) + '/' + str(dst_prefix))
-            
             query_filter = {}
             for i in self.key:
                 if self.key[i].lower() != 'any':
@@ -43,16 +37,11 @@ class Counter(Thread):
                         query_filter[i] = int(self.key[i])
 
             flows = self.client.sdn01.flow_stat.find(query_filter)
-           
-
             check = []
-            for i in flows:
-                check.append(str(i))
-            print(check)
-            if len(check):
+
+            if len(flows):
                 time.sleep(self.timeout)
             else:
-                print(len(check))
                 payload = {'flow_id': self.info['flow_id']}
                 print(payload)
                 requests.delete("http://localhost:5001/api/v1/flow/routing",  params=payload)

@@ -6,7 +6,9 @@ from ipaddress import IPv4Network, IPv4Address, ip_network
 
 
 start = time.perf_counter()
-controller_ip = "10.50.34.37"
+controller_ip = "10.50.34.15"
+
+
 
 
 def call_change_route_api():
@@ -19,11 +21,13 @@ def call_change_route_api():
 
 def get_path(src_net, dst_net):
     """get all possible path from src_network to dst_network"""
+    print(src_net)
     src_mgmtip = get_device_ip_from_device_id(get_device_id_from_network(src_net))
+    print("SRC_MNIP = ", src_mgmtip)
     dst_mgmtip = get_device_ip_from_device_id(get_device_id_from_network(dst_net))
     path_s = requests.get("http://"+controller_ip+":5001/api/v1/path/"+src_mgmtip+","+dst_mgmtip).json()['paths']
     """
-    path_s for mat 
+    path_s format 
     [{'route_id': '192.168.8.1,192.168.7.34,192.168.1.2', 'start_node': '192.168.8.1', 'nexthop_node': '192.168.7.34',
      'end_node': '192.168.1.2', 'path': ['192.168.8.1', '192.168.7.34', '192.168.7.17', '192.168.1.1', '192.168.1.2']}]
     """
@@ -31,6 +35,7 @@ def get_path(src_net, dst_net):
     return path
 
 def get_device_id_from_network(network):
+    print("Network = ", network)
     routes = requests.get("http://"+controller_ip+":5001/api/v1/routes/").json()['routes']
     for route in routes:
         if route['dst'] == network and route['next_hop'] == "0.0.0.0":
@@ -38,7 +43,10 @@ def get_device_id_from_network(network):
                 return route['device_id']['$oid']
 
 def get_device_ip_from_device_id(device_id):
+    print(device_id)
+    print()
     if requests.get("http://"+controller_ip+":5001/api/v1/device/"+device_id).json()['device'] != []:
+        print("dsfsdfdsfsdf")
         return requests.get("http://"+controller_ip+":5001/api/v1/device/"+device_id).json()['device'][0]['device_ip']
     return None
 
@@ -120,76 +128,6 @@ def convert_ip_to_network(ip, mask):
     network_address = str(IPv4Address(int(bi_network, 2)))
     return network_address
 
-
-
-
-
-# wildcard_to_mask('0.0.0.7')
-
-# # flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()
-# # all_flow = flow['flows']
-# # call_delete()
+print('555555' + get_device_id_from_network('192.168.8.0'))
 call_change_route_api()
 
-
-
-# policy = requests.get("http://"+controller_ip+":5001/api/v1/flow/routing").json()['flows']
-# flow = requests.get("http://"+controller_ip+":5001/api/v1/flow").json()['flows']
-
-# print(policy)
-
-from pymongo import MongoClient
-
-# key = {'ipv4_dst_addr':'10.50.34.37', 'ipv4_src_addr':'192.168.7.18'}
-
-# for i in policy:
-
-#     src_ip = i['src_ip']
-#     wildcard = i['src_wildcard']
-#     ip_list = []
-#     prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(wildcard))^(2**32-1))
-#     print(src_ip)
-    
-#     src_network_obj = IPv4Network(convert_ip_to_network(src_ip, prefix) + '/' + str(prefix))
-
-#     for i in src_network_obj:
-#         ip_list.append(str(i))
-
-#     flow = []
-    
-#     flows = client.sdn01.flow_stat
-
-#     flows = flows.find({ 'ipv4_src_addr': { '$in': ip_list } ,  'ipv4_dst_addr': { '$in': ['10.50.34.37'] } } )
-#     # print(flows[0]['first_switched'])
-#     # print(flows[0]['last_switched'])
-#     # print(flows[0]['created_at'])
-    
-
-#     # for x in flows:
-#     #     print(x)
-#     #     flow.append(x)
-
-#     # print(len(flow))
-#     # print(flows)
-
-client = MongoClient('10.50.34.37', 27017) 
-policy = client.sdn01.flow_routing.find()
-src_ip_list, dst_ip_list = [], []
-    
-    # src_prefix, dst_prefix = IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['src_wildcard']))^(2**32-1)), IPv4Address._prefix_from_ip_int(int(IPv4Address(self.key['dst_wildcard']))^(2**32-1))
-
-src_network_obj = IPv4Network(convert_ip_to_network('192.168.8.100', 24) + '/' + str(24))
-dst_network_obj = IPv4Network(convert_ip_to_network('192.168.10.0', 24) + '/' + str(24))
-
-
-for i in src_network_obj:
-    src_ip_list.append(str(i))
-for i in dst_network_obj:
-    dst_ip_list.append(str(i))
-flows = client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,  'ipv4_dst_addr': {'$in': dst_ip_list}, 'l4_src_port': {'$in': [5555]} } )
-print(flows)
-
-
-a = client.sdn01.flow_stat.find({ 'ipv4_src_addr': {'$in': src_ip_list} ,'ipv4_dst_addr': {'$in': dst_ip_list} } )
-for i in a:
-    print(i)
