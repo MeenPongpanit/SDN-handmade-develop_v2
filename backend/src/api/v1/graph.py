@@ -24,6 +24,11 @@ class GraphView(HTTPMethodView):
 
     def post(self, request):
         filters = request.json['filters']
+        print("------------------------")
+        print(request.json())
+        print("------------------------")
+        print(filters)
+        print("------------------------")
         data = loads(dumps(request.app.db['link_utilization'].get_all()))
         nodes = {}
         edges = {}
