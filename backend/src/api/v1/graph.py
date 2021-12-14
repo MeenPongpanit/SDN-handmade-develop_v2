@@ -29,7 +29,7 @@ class GraphView(HTTPMethodView):
         filters = request.json['filters']
 
         print(filters)
-        print("------------------------")
+        print("@@@@@@@@@@@@@@@@@@@")
         data = loads(dumps(request.app.db['link_utilization'].get_all()))
         nodes = {}
         edges = {}
