@@ -48,9 +48,10 @@ class GraphView(HTTPMethodView):
                 nodes[src_node] = f'node{len(nodes)}'
             if dst_node not in nodes:
                 nodes[dst_node] = f'node{len(nodes)}'
-            edges[f'edge{len(edges)}'] = {'source':nodes[src_node], 'target':nodes[dst_node]}
-            if (link['dst_if_ip'], link['src_if_ip']) in filtered_flow or (link['src_if_ip'], link['dst_if_ip']) in filtered_flow:
-                edges[f'edge{len(edges)}']['animate'] = True
+            edge_id = len(edges)
+            edges[f'edge{edge_id}'] = {'source':nodes[src_node], 'target':nodes[dst_node]}
+            if (link['dst_if_ip'], link['src_if_ip']) in filtered_flow or (link['src_if_ip'], link['dst_if_ip']) in filtered_flow or not filters:
+                edges[f'edge{edge_id}']['animate'] = True
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges}
         print("#####################")
