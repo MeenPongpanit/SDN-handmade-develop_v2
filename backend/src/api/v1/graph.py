@@ -27,13 +27,16 @@ class GraphView(HTTPMethodView):
         print(request.json)
         print("------------------------")
         filters = request.json['filters']
-
         print(filters)
         print("@@@@@@@@@@@@@@@@@@@")
+
         data = loads(dumps(request.app.db['link_utilization'].get_all()))
         nodes = {}
         edges = {}
         flows = request.app.db['flow_stat'].get_all().sort("in_bytes", -1)
+        print("@@@@@@@@@@@@@@@@@@")
+        print(flows)
+        print("@@@@@@@@@@@@@@@@@@")
         filtered_flow = []
         for flow in flows:
             if flow['l4_dst_port"'] in filters or flow['l4_src_port"'] in filters :
