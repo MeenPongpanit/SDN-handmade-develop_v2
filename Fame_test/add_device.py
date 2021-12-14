@@ -38,10 +38,14 @@ def remove_device(id):
     requests.delete("http://" + controller_ip + ":5001/api/v1/device",  params={'device_id': id})
 
 def init():
+    print("Do Initialize")
     requests.post("http://" + controller_ip +  ":5001/api/v1/initialization", json={'service': 'snmp', 'management_ip':controller_ip})
+    print("Init Finish")
 
 def net_flow():
+    print("Do NetFlow")
     requests.post("http://" + controller_ip +  ":5001/api/v1/initialization", json={'service': 'netflow', 'management_ip':controller_ip})
+    print("NetFlow Done")
 
 def do_all():
     add_device()
@@ -53,6 +57,7 @@ def main():
     print("2 : Remove All Device ")
     print("3 : Set Initialization")
     print("4 : Set NetFlow")
+    print("5 : Add Device + Init + Netflow")
     action = input("Action : ")
     if action == '1':
         add_device()

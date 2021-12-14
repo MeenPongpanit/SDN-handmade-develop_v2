@@ -1,5 +1,5 @@
 config t
-hostname R7_1
+hostname R_Office_1
 int g0/1
 ip add 192.168.7.33 255.255.255.240
 no shut

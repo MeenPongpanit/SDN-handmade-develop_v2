@@ -1,5 +1,5 @@
 conf t
-hostname R1
+hostname Router_GateWay
 int g0/0
 ip add dhcp
 no shut
