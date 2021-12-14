@@ -23,13 +23,11 @@ class GraphView(HTTPMethodView):
         return json({"graph": graph, "status": "ok"})
 
     def post(self, request):
-        print("------------------------")
-        print(request.json)
-        print("------------------------")
+
         filters = request.json['filters']
         filters = filters['_value']
         print(filters)
-        print("@@@@@@@@@@@@@@@@@@@")
+
 
         data = loads(dumps(request.app.db['link_utilization'].get_all()))
         nodes = {}
@@ -39,9 +37,7 @@ class GraphView(HTTPMethodView):
 
         filtered_flow = []
         for flow in flows:
-            print("@@@@@@@@@@@@@@@@@@")
-            print(flow)
-            print("@@@@@@@@@@@@@@@@@@")
+
             if flow['l4_dst_port'] in filters or flow['l4_src_port'] in filters :
                 filtered_flow.append((flow['from_ip'], flow['ipv4_next_hop']))
 
@@ -57,7 +53,9 @@ class GraphView(HTTPMethodView):
                 edges[f'edge{len(edges)}']['animate'] = True
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges}
-        
+        print("#####################")
+        print(graph['edges'])
+        print("#####################")
         return json({"graph": graph, "status": "ok"})
  
         
