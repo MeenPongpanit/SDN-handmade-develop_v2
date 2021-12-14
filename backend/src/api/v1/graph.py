@@ -34,11 +34,12 @@ class GraphView(HTTPMethodView):
         nodes = {}
         edges = {}
         flows = request.app.db['flow_stat'].get_all().sort("in_bytes", -1)
-        print("@@@@@@@@@@@@@@@@@@")
-        print(flows)
-        print("@@@@@@@@@@@@@@@@@@")
+
         filtered_flow = []
         for flow in flows:
+            print("@@@@@@@@@@@@@@@@@@")
+            print(flow)
+            print("@@@@@@@@@@@@@@@@@@")
             if flow['l4_dst_port"'] in filters or flow['l4_src_port"'] in filters :
                 filtered_flow.append((flow['from_ip'], flow['ipv4_next_hop']))
 
