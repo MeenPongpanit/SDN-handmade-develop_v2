@@ -51,7 +51,7 @@ class GraphView(HTTPMethodView):
             else:
                 flow_data['flow_rate'] = ''
             flows_data.append(flow_data)
-            if flow['l4_dst_port'] in filters or flow['l4_src_port'] in filters :
+            if flow['l4_dst_port'] in filters or flow['l4_src_port'] in filters or not filters :
                 filtered_flow.append(flow['ipv4_next_hop'])
 
         for link in data:
@@ -64,12 +64,13 @@ class GraphView(HTTPMethodView):
             edge_id = f'edge{len(edges)}'
             edges[edge_id] = {'source':nodes[src_node], 'target':nodes[dst_node]}
             flows_by_edge[edge_id] = []
-            if link['dst_if_ip'] in filtered_flow or link['src_if_ip'] in filtered_flow or not filters:
+            if link['dst_if_ip'] in filtered_flow or link['src_if_ip'] in filtered_flow:
                 edges[edge_id]['animate'] = True
             for flow_data in flows_data:
-                if (flow_data['next_hop_ip'] in (link['dst_if_ip'], link['src_if_ip']) and flow_data['next_hop_ip'] in filtered_flow) or not filtered_flow:
-                    if flow_data['src_port'] in filters or flow_data['dst_port'] in filters or not filters:
-                        flows_by_edge[edge_id].append(flow_data)
+                if flow_data['next_hop_ip'] in (link['dst_if_ip'], link['src_if_ip']) and (link['src_if_ip'] in filtered_flow or link['dst_if_ip'] in filtered_flow):
+                    flows_by_edge[edge_id].append(flow_data)
+                    
+
 
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges, "flows":flows_by_edge}
