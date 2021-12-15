@@ -71,5 +71,5 @@ class GraphView(HTTPMethodView):
         print("#####################")
         print(graph['edges'])
         print("#####################")
-        return json({"graph": graph, "status": "ok"})
+        return json({"graph": graph, "flows_data":flows_by_edge, "status": "ok"})
  
