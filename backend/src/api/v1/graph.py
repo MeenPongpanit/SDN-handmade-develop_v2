@@ -34,12 +34,11 @@ class GraphView(HTTPMethodView):
         edges = {}
         flows = request.app.db['flow_stat'].get_all().sort("in_bytes", -1)
 
-
         filtered_flow = []
         for flow in flows:
 
             if flow['l4_dst_port'] in filters or flow['l4_src_port'] in filters :
-                filtered_flow.append((flow['from_ip'], flow['ipv4_next_hop']))
+                filtered_flow.append(flow['ipv4_next_hop'])
 
         for link in data:
             src_node = link['src_node_hostname']
@@ -50,7 +49,7 @@ class GraphView(HTTPMethodView):
                 nodes[dst_node] = f'node{len(nodes)}'
             edge_id = len(edges)
             edges[f'edge{edge_id}'] = {'source':nodes[src_node], 'target':nodes[dst_node]}
-            if (link['dst_if_ip'], link['src_if_ip']) in filtered_flow or (link['src_if_ip'], link['dst_if_ip']) in filtered_flow or not filters:
+            if link['dst_if_ip'] in filtered_flow or link['src_if_ip'] in filtered_flow or not filters:
                 edges[f'edge{edge_id}']['animate'] = True
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges}
@@ -59,9 +58,3 @@ class GraphView(HTTPMethodView):
         print("#####################")
         return json({"graph": graph, "status": "ok"})
  
-        
-        # edge_flow : {
-        #     edge0 : [{src_ip:, dst_ip:, src_port:, dst_port:}, {}, {}, {}], 
-        #     edge1 : []
-        # }
-
