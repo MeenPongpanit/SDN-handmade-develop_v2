@@ -44,8 +44,12 @@ class GraphView(HTTPMethodView):
                 'src_port':flow['l4_src_port'],
                 'dst_port':flow['l4_dst_port'],
                 'next_hop_ip':flow['ipv4_next_hop'],
-                'flow_rate':flow.get('Mbits_per_sec', '')
+                
                 }
+            if flow.get('Mbits_per_sec', ''):
+                flow_data['flow_rate'] = '%.4f'%flow['Mbits_per_sec']
+            else:
+                flow_data['flow_rate'] = ''
             flows_data.append(flow_data)
             if flow['l4_dst_port'] in filters or flow['l4_src_port'] in filters :
                 filtered_flow.append(flow['ipv4_next_hop'])
