@@ -68,7 +68,8 @@ class GraphView(HTTPMethodView):
                 edges[edge_id]['animate'] = True
             for flow_data in flows_data:
                 if (flow_data['next_hop_ip'] in (link['dst_if_ip'], link['src_if_ip']) and flow_data['next_hop_ip'] in filtered_flow) or not filtered_flow:
-                    flows_by_edge[edge_id].append(flow_data)
+                    if flow_data['src_port'] in filters or flow_data['dst_port'] in filters:
+                        flows_by_edge[edge_id].append(flow_data)
 
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges, "flows":flows_by_edge}
