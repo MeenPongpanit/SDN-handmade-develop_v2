@@ -36,9 +36,12 @@ class Counter(Thread):
                     else:
                         query_filter[i] = int(self.key[i])
 
+            check = 0
             flows = self.client.sdn01.flow_stat.find(query_filter)
-            check = []
-            if len(flows):
+            for i in flows:
+                check = 1
+            
+            if check:
                 time.sleep(self.timeout)
             else:
                 payload = {'flow_id': self.info['flow_id']}
