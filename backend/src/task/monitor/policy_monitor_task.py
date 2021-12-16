@@ -194,7 +194,7 @@ class PolicyMonitorTask:
                 device = self.device_repository.get_device_by_mgmt_ip(action["management_ip"])
             # logging.info(device)
             # action_cmd = generate_action_command(device['type'], flow, flow_id, flow_name, action)
-            print(device['type'])
+            print(new_flow, flow_id, flow_name, action)
             cmd = generate_config_command(device['type'], new_flow, flow_id, flow_name, action)
             # Policy cmd + action cmd
             # device_list[action['management_ip']] = ["\n".join(policy_cmd + action_cmd)]
