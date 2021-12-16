@@ -14,7 +14,7 @@ controller_ip = "10.50.34.15"
 def call_change_route_api():
     """prepare all agrs need for change route and call it's API"""
     src_net, dst_net = '192.168.8.0', '192.168.10.0'
-    src_port, dst_port = 'any', 'any'
+    src_port, dst_port = '5555', '5555'
     path = get_path(src_net, dst_net)
     print("A")
     change_route(path, src_net, dst_net, src_port, dst_port)
@@ -71,9 +71,7 @@ def change_route(path, src_net, dst_net, src_port=None, dst_port=None):
         )).json()
         device_id = device['device']['_id']['$oid']
         next_hop_ip = get_nexthop_from_management_ip(path[i], path[i+1])
-        interface = get_all_inteface(device)
-        print(interface)
-        action = {'device_id':device_id, 'action':2, 'interface':interface, 'data':next_hop_ip}
+        action = {'device_id':device_id, 'action':2, 'data':next_hop_ip}
         new_flow['actions'].append(action)
         new_flow['aging_time'] = 20
 

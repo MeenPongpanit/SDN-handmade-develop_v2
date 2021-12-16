@@ -38,7 +38,6 @@ class Counter(Thread):
 
             flows = self.client.sdn01.flow_stat.find(query_filter)
             check = []
-
             if len(flows):
                 time.sleep(self.timeout)
             else:
