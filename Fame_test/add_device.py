@@ -60,10 +60,12 @@ def policy_test():
     dst_port = '5555'
     dst_wildcard = '0.0.0.255'
     action = [{'device_id':'61bad78114f944ac9721a8fc', 'action':2, 'data':'192.168.7.49'}]
-    new_flow = {'name':'new_route', 'src_ip':src_net, 'src_port':src_port, 'src_subnet':src_wildcard, 'dst_ip':dst_net, 'dst_port':dst_port, 'dst_subnet':dst_wildcard, 'actions':action}
+    new_flow = {'name':'new_route', 'src_ip':src_net, 'src_port':src_port, 'src_subnet':src_wildcard, 'dst_ip':dst_net, 'dst_port':dst_port,\
+         'dst_subnet':dst_wildcard, 'actions':action, 'aging_time':60}
     requests.post("http://"+controller_ip+":5001/api/v1/flow/routing", json=new_flow)
     action = [{'device_id':'61bad78914f944ac9721a9ae', 'action':2, 'data':'192.168.7.34'}]
-    new_flow = {'name':'new_route', 'src_ip':'192.168.10.0', 'src_port':'5555', 'src_subnet':'0.0.0.255', 'dst_ip':'192.168.8.0', 'dst_port':'any', 'dst_subnet':'0.0.0.255', 'actions':action}
+    new_flow = {'name':'new_route', 'src_ip':'192.168.10.0', 'src_port':'5555', 'src_subnet':'0.0.0.255', 'dst_ip':'192.168.8.0', 'dst_port':'any',\
+         'dst_subnet':'0.0.0.255', 'actions':action, 'aging_time':60}
     requests.post("http://"+controller_ip+":5001/api/v1/flow/routing", json=new_flow)
     print("Done")
 
