@@ -26,7 +26,7 @@ class GraphView(HTTPMethodView):
 
         filters = request.json['filters']
         filters = filters['_value']
-        print(filters)
+        # print(filters)
 
 
         data = loads(dumps(request.app.db['link_utilization'].get_all()))
@@ -77,9 +77,9 @@ class GraphView(HTTPMethodView):
 
         nodes = {nodes[i]:{'name':i} for i in nodes}
         graph = {"nodes":nodes, "edges":edges, "flows":flows_by_edge}
-        print("#####################")
-        print(graph['edges'])
-        print([(i['src_port'], i['dst_port']) for i in flows_data])
-        print("#####################")
+        # print("#####################")
+        # print(graph['edges'])
+        # print([(i['src_port'], i['dst_port']) for i in flows_data])
+        # print("#####################")
         return json({"graph": graph, "flows_data":flows_by_edge, "status": "ok"})
  
